@@ -41,6 +41,16 @@ nav {
 .false-text {
   color: red;
 }
+
+.btn-right {
+  float: right;
+  margin: 10px
+}
+
+.btn-left {
+  float: left;
+  margin: 10px;
+}
 /* nav a {
   font-weight: bold;
   color: #2c3e50;

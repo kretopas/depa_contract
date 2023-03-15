@@ -39,6 +39,11 @@ export default {
             }).then((response) => {
                 if (response.data.data != false) {
                     localStorage.setItem('userid', response.data.data);
+                    if (response.data.group == 1) {
+                        this.$store.dispatch('userGroup', 'employee')
+                    } else if (response.data.group == 9) {
+                        this.$store.dispatch('userGroup', 'contractor')
+                    }
                     this.$store.dispatch('isLoggedIn', true);
                     this.$store.dispatch('user', response.data.data);
                     this.$router.push("/");

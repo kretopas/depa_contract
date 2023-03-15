@@ -54,8 +54,4 @@ export default {
     margin: 10px 15px 0px;
 }
 
-.btn-right {
-    float: right;
-}
-
 </style>

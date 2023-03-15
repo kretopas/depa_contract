@@ -16,10 +16,12 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
-import { faChevronLeft, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
+import { faChevronLeft, faInfoCircle, faPencil, faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faChevronLeft)
 library.add(faInfoCircle)
+library.add(faPencil)
+library.add(faFloppyDisk)
     // createApp(App).use(store).use(router).mount('#app')
 const application = createApp(App)
 application.use(store)

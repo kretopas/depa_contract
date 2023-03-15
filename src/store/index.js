@@ -7,6 +7,9 @@ export default createStore({
         user: (state) => {
             return state.user;
         },
+        userGroup: (state) => {
+            return state.userGroup;
+        },
         isLoggedIn: (state) => {
             return state.isLoggedIn
         }
@@ -15,6 +18,9 @@ export default createStore({
         user(state, user) {
             state.user = user;
         },
+        userGroup(state, userGroup) {
+            state.userGroup = userGroup;
+        },
         isLoggedIn(state, isLoggedIn) {
             state.isLoggedIn = isLoggedIn;
         }
@@ -22,6 +28,9 @@ export default createStore({
     actions: {
         user(context, user) {
             context.commit('user', user);
+        },
+        userGroup(context, userGroup) {
+            context.commit('userGroup', userGroup);
         },
         isLoggedIn(context, isLoggedIn) {
             context.commit('isLoggedIn', isLoggedIn);

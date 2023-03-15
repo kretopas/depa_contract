@@ -1,4 +1,4 @@
-# depa_sanya
+# depa_contract
 
 ## Project setup
 
