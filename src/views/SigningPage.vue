@@ -62,13 +62,13 @@ export default {
                 }).then((response) => {
                     if (String(response.data.data).toLowerCase() === 'true') {
                         Swal.fire({
-                                    title: 'สำเร็จ!',
-                                    html: 'ลงนามสำเร็จแล้ว',
-                                    icon: 'success',
-                                    confirmButtonText: 'OK'
-                                }).then(() => {
-                                    location.reload();
-                                })
+                                title: 'สำเร็จ!',
+                                html: 'ลงนามสำเร็จแล้ว',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                location.reload();
+                            })
                     }
                 }).catch((response) => {
                     console.log(response)

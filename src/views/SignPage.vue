@@ -25,7 +25,7 @@
                 </tbody>
                 <div style="padding-top: 10px">
                     <button type="button" class="btn btn-clear btn-success">
-                        ลงน้ำ
+                        ลงนาม
                     </button>
                 </div>
             </table>

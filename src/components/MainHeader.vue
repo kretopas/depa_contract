@@ -1,7 +1,9 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">depa Contract</a>
+            <router-link to="/">
+                <a class="navbar-brand">depa Contract</a>
+            </router-link>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
                 aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle Navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -21,7 +23,8 @@
                         <router-link to="/profile"><a class="nav-link">ข้อมูลของฉัน</a></router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="#"><a href="javascript:void(0)" @click="logoutClick" class="nav-link">ออกจากระบบ</a></router-link>
+                        <router-link to="#"><a href="javascript:void(0)" @click="logoutClick"
+                                class="nav-link">ออกจากระบบ</a></router-link>
                     </li>
                 </ul>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0" v-else>
@@ -39,6 +42,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import Swal from 'sweetalert2';
+
 export default {
     name: 'mainHeader',
     data() {
@@ -46,10 +51,22 @@ export default {
     },
     methods: {
         logoutClick() {
-            localStorage.removeItem("userid");
-            this.$store.dispatch('isLoggedIn', false);
-            this.$store.dispatch('user', null)
-            this.$router.push('login')
+            Swal.fire({
+                text: "ออกจากระบบหรือไม่?",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "ออกจากระบบ",
+                confirmButtonColor: "#d33",
+                cancelButtonText: "ยกเลิก"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem("userid");
+                    this.$store.dispatch('isLoggedIn', false);
+                    this.$store.dispatch('user', null);
+                    this.$store.dispatch('userGroup', null);
+                    this.$router.push('login')
+                }
+            })
         }
     },
     computed: {
