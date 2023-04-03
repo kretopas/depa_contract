@@ -42,12 +42,18 @@ const routes = [{
     {
         path: '/login',
         name: 'login',
-        component: LoginPage
+        component: LoginPage,
+        meta: {
+            requiresGuest: true
+        }
     },
     {
         path: '/register',
         name: 'register',
-        component: RegisterPage
+        component: RegisterPage,
+        meta: {
+            requiresGuest: true
+        }
     }
 ]
 
@@ -57,14 +63,16 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (!store.getters.isLoggedIn) {
-            next({ name: 'login' })
-        } else {
-            next()
-        }
+    const requiresAuth = to.matched.some((x) => x.meta.requiresAuth);
+    const requiresGuest = to.matched.some((x) => x.meta.requiresGuest);
+    const isLoggedIn = store.getters.isLoggedIn;
+
+    if (requiresAuth && !isLoggedIn) {
+        next({ name: 'login' });
+    } else if (requiresGuest && isLoggedIn) {
+        next({ name: 'waiting' });
     } else {
-        next()
+        next();
     }
 })
 

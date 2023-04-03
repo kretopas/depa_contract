@@ -1,5 +1,5 @@
 <template>
-    <div class="container" v-if="user">
+    <div class="container" v-if="user && documents.length > 0">
         <div v-for="document in documents" v-bind:key="document">
             <div :class="'card text-bg-warning'">
                 <div class="card-header">
@@ -9,12 +9,15 @@
                     <p class="card-text">เรื่อง: {{ document.subject }}</p>
                     <router-link :to="'/sign/' + document.id">
                         <a class="btn btn-primary btn-right">
-                            <font-awesome-icon icon="fas fa-info-circle" /> รายละเอียด
+                            <font-awesome-icon icon="fas fa-info-circle"/> รายละเอียด
                         </a>
                     </router-link>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="container" v-else>
+        <p style="margin: 10px;"><b>ไม่มีเอกสารที่รอการลงนามในขณะนี้</b></p>
     </div>
 </template>
 
@@ -28,7 +31,7 @@ export default {
         }
     },
     created() {
-        let url = `${process.env.VUE_APP_API}/doc/waiting/${this.user}`
+        let url = `${process.env.VUE_APP_API}/${this.userGroup}/doc/waiting/${this.user}`
         this.axios({
             method: 'get',
             url: url,
@@ -40,7 +43,8 @@ export default {
         })
     },
     computed: {
-        ...mapGetters(['user'])
+        ...mapGetters(['user']),
+        ...mapGetters(['userGroup'])
     }
 }
 </script>

@@ -1,4 +1,3 @@
-import { mapGetters } from 'vuex';
 <template>
     <div class="container-fluid" v-if="user">
         <div align="center" v-if="userDetail">
@@ -6,7 +5,7 @@ import { mapGetters } from 'vuex';
                 <button type="button" class="btn btn-warning btn-left"
                 @click="toggleEditMode()"
                 >
-                    <font-awesome-icon icon="fas fa-pencil" /> แก้ไข
+                    <font-awesome-icon icon="fas fa-pencil" /> แก้ไขข้อมุล
                 </button>
             </div>
             <div v-if="editMode">
@@ -32,8 +31,8 @@ import { mapGetters } from 'vuex';
                     <tr>
                         <td>ชื่อ-นามสกุล</td>
                         <td>
-                            <input type="text" :value="userDetail.fullname"
-                            @change="saveEditInput('fullname', $event.target.value)"
+                            <input type="text" :value="userDetail.name"
+                            @change="saveEditInput('name', $event.target.value)"
                             :readonly="!editMode" :disabled="!editMode"
                             />
                         </td>
@@ -91,7 +90,7 @@ export default {
     data() {
         return {
             userDetail: '',
-            fullname: '',
+            name: '',
             company: '',
             email: '',
             cad_password: '',
@@ -109,7 +108,7 @@ export default {
         }).then((response) => {
             if (response.data.data != false) {
                 this.userDetail = response.data.data
-                this.fullname = this.userDetail.fullname;
+                this.name = this.userDetail.name;
                 this.company = this.userDetail.company;
                 this.email = this.userDetail.email;
                 this.cad_password = this.userDetail.cad_password;
@@ -150,7 +149,7 @@ export default {
                     this.LoadingAlert();
                     var data = {
                         user_id: this.user,
-                        fullname: this.fullname,
+                        name: this.name,
                         company: this.company,
                         email: this.email,
                         cad_password: this.cad_password,
@@ -189,8 +188,13 @@ export default {
                                 confirmButtonText: 'OK'
                             })
                         }
-                    }).catch((response) => {
-                        console.log(response);
+                    }).catch(() => {
+                        Swal.fire({
+                            title: 'ผิดพลาด',
+                            html: 'มีช้อผิดพลาดในการลงนาม',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        })
                     })
                 }
             })
@@ -207,6 +211,4 @@ export default {
 </script>
 
 <style scoped>
-
-
 </style>

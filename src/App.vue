@@ -51,6 +51,15 @@ nav {
   float: left;
   margin: 10px;
 }
+
+.form-group {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.btn-block {
+  margin-left: 10px;
+}
 /* nav a {
   font-weight: bold;
   color: #2c3e50;
