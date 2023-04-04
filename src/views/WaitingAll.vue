@@ -1,5 +1,5 @@
 <template>
-    <div class="container" v-if="user && documents.length > 0">
+    <div class="container" v-if="currentUser && documents.length > 0">
         <div v-for="document in documents" v-bind:key="document">
             <div :class="'card text-bg-warning'">
                 <div class="card-header">
@@ -22,7 +22,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import DocumentService from '@/services/document.service';
+import EventBus from '@/common/EventBus';
+
 export default {
     name: 'WaitingTicket',
     data() {
@@ -30,21 +32,29 @@ export default {
             documents: []
         }
     },
-    created() {
-        let url = `${process.env.VUE_APP_API}/${this.userGroup}/doc/waiting/${this.user}`
-        this.axios({
-            method: 'get',
-            url: url,
-            headers: { "Content-Type": "application/json" }
-        }).then((response) => {
-            if (response.data.data != false) {
-                this.documents = response.data.data
+    async mounted() {
+        DocumentService.getWaitingDocuments().then(
+            (response) => {
+                this.documents = response.data;
+            },
+            error => {
+                this.content =
+                (error.response && error.response.data && error.response.data.message) ||
+                error.message ||
+                error.toString()
+
+                if (error.response && error.response.status === 403) {
+                    EventBus.dispatch("logout");
+                }
             }
-        })
+        )
     },
     computed: {
-        ...mapGetters(['user']),
-        ...mapGetters(['userGroup'])
+        //...mapGetters(['user']),
+        //...mapGetters(['userGroup'])
+        currentUser() {
+            return this.$store.state.auth.user;
+        }
     }
 }
 </script>

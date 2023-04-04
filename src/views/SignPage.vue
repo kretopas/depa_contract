@@ -1,11 +1,18 @@
 <template>
-    <router-link to="/">
-        <button type="button" class="btn btn-outline-primary">
-            <font-awesome-icon icon="fas fa-chevron-left" /> Back
-        </button>
-    </router-link>
-    <div class="container-fluid" v-if="user">
-        <div align="center" v-if="document">
+    <div class="container" v-if="currentUser">
+        <div v-if="document">
+            <div class="btn-row">
+                <router-link to="/">
+                    <button type="button" class="btn btn-outline-primary">
+                        <font-awesome-icon icon="fas fa-chevron-left" /> Back
+                    </button>
+                </router-link>
+            </div>
+            <div style="margin-top: 20px;">
+                <form>
+                    
+                </form>
+            </div>
             <table width="80%" class="table table-bordered table-hover">
                 <thead class="table-dark">
                     <tr>
@@ -38,8 +45,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+//import { mapGetters } from 'vuex';
 import Swal from 'sweetalert2';
+//import api from '@/services/api';
+import DocumentService from '@/services/document.service';
+import EventBus from '@/common/EventBus';
 
 export default {
     name: 'SignPage',
@@ -48,19 +58,36 @@ export default {
             document: null
         }
     },
-    created() {
-        let url = `${process.env.VUE_APP_API}/${this.userGroup}/doc/detail/${this.user}/${this.$route.params.id}`
-        this.axios({
-            method: 'get',
-            url: url,
-            headers: { "Content-Type": "application/json" }
-        }).then((response) => {
-            if (response.data.data != false) {
-                this.document = response.data.data
-            } else {
-                this.document = false
+    //created() {
+    //    let url = `${process.env.VUE_APP_API}/${this.userGroup}/doc/detail/${this.user}/${this.$route.params.id}`
+    //    this.axios({
+    //        method: 'get',
+    //        url: url,
+    //        headers: { "Content-Type": "application/json" }
+    //    }).then((response) => {
+    //        if (response.data.data != false) {
+    //            this.document = response.data.data
+    //        } else {
+    //            this.document = false
+    //        }
+    //    })
+    //},
+    async mounted() {
+        DocumentService.getDocumentDetail(this.$route.params.id).then(
+            (response) => {
+                this.document = response.data
+            },
+            error => {
+                this.content =
+                (error.response && error.response.data && error.response.data.message) ||
+                error.message ||
+                error.toString()
+
+                if (error.response && error.response.status === 403) {
+                    EventBus.dispatch("logout");
+                }
             }
-        })
+        )
     },
     methods: {
         LoadingAlert() {
@@ -120,8 +147,11 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['user']),
-        ...mapGetters(['userGroup'])
+        //...mapGetters(['user']),
+        //...mapGetters(['userGroup'])
+        currentUser() {
+            return this.$store.state.auth.user;
+        }
     }
 }
 </script>

@@ -1,42 +1,27 @@
 import { createStore } from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
+import { auth } from './auth.module'
 
 export default createStore({
     state: {},
     getters: {
-        user: (state) => {
-            return state.user;
+        accessToken: (state) => {
+            return state.accessToken;
         },
-        userGroup: (state) => {
-            return state.userGroup;
-        },
-        isLoggedIn: (state) => {
-            return state.isLoggedIn
-        }
     },
     mutations: {
-        user(state, user) {
-            state.user = user;
+        accessToken(state, accessToken) {
+            state.user = accessToken;
         },
-        userGroup(state, userGroup) {
-            state.userGroup = userGroup;
-        },
-        isLoggedIn(state, isLoggedIn) {
-            state.isLoggedIn = isLoggedIn;
-        }
     },
     actions: {
-        user(context, user) {
-            context.commit('user', user);
+        accessToken(context, accessToken) {
+            context.commit('accessToken', accessToken);
         },
-        userGroup(context, userGroup) {
-            context.commit('userGroup', userGroup);
-        },
-        isLoggedIn(context, isLoggedIn) {
-            context.commit('isLoggedIn', isLoggedIn);
-        }
     },
-    modules: {},
+    modules: {
+        auth
+    },
     plugins: [
         createPersistedState()
     ]

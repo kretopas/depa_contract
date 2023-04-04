@@ -1,26 +1,75 @@
 <template>
-    <div class="container-fluid" v-if="user">
-        <div align="center" v-if="userDetail">
-            <div v-if="!editMode">
-                <button type="button" class="btn btn-warning btn-left"
+    <div class="container" v-if="currentUser">
+        <div v-if="userDetail">
+            <div v-if="!editMode" class="btn-row">
+                <button type="button" class="btn btn-warning btn-block"
                 @click="toggleEditMode()"
                 >
-                    <font-awesome-icon icon="fas fa-pencil" /> แก้ไขข้อมุล
+                    <font-awesome-icon icon="fas fa-pencil" /> แก้ไขข้อมูล
                 </button>
             </div>
-            <div v-if="editMode">
-                <button type="button" class="btn btn-secondary btn-left"
+            <div v-if="editMode" class="btn-row">
+                <button type="button" class="btn btn-secondary btn-block"
                 @click="toggleEditMode()"
                 >
                     ยกเลิก
                 </button>
-                <button type="button" class="btn btn-info btn-left"
+                <button type="button" class="btn btn-success btn-block"
                 @click="sendEditData()"
                 >
                     <font-awesome-icon icon="fas fa-floppy-disk" /> บันทึก
                 </button>
             </div>
-            <table width="80%" class="table table-bordered table-hover">
+            <div>
+                <form style="margin-top: 20px;">
+                    <div class="form-group row mb-3">
+                        <label for="name" class="col-sm-2 col-form-label">ชื่อ-นามสกุล</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                            id="name" v-model="name"
+                            required :readonly="!editMode" :disabled="!editMode"/>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="company" class="col-sm-2 col-form-label">บริษัท</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                            id="company" v-model="company"
+                            required :readonly="!editMode" :disabled="!editMode"/>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="email" class="col-sm-2 col-form-label">อีเมล</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                            id="email" v-model="email"
+                            required :readonly="!editMode" :disabled="!editMode"/>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="cad_password" class="col-sm-2 col-form-label">CAD password</label>
+                        <div class="col-sm-10">
+                            <textarea cols="50" rows="4" class="form-control"
+                            id="cad_password" v-model="cad_password"
+                            required :readonly="!editMode" :disabled="!editMode"/>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="sign_img" class="col-sm-2 col-form-label">ภาพลายเซ็น</label>
+                        <div class="col-sm-10" id="sign_img">
+                            <div v-if="editMode">
+                                <input type="file" class="form-control"
+                                id="image" name="image"
+                                @change="$event => selectedFile($event.target.files)"/>
+                            </div>
+                            <img v-bind:src="'data:image/png;base64,'+userDetail.sign_img"
+                            style="width: 200px; height: 100px;"
+                            />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--<table width="80%" class="table table-bordered table-hover">
                 <thead class="table-dark">
                     <tr>
                         <th scope="col">รายการ</th>
@@ -41,7 +90,7 @@
                         <td>บริษัท</td>
                         <td>
                             <input type="text" :value="userDetail.company"
-                            @change="saveEditInput(key, $event.target.value)"
+                            @change="saveEditInput('company', $event.target.value)"
                             :readonly="!editMode" :disabled="!editMode"
                             />
                         </td>
@@ -50,7 +99,7 @@
                         <td>อีเมล</td>
                         <td>
                             <input type="text" :value="userDetail.email"
-                            @change="saveEditInput(key, $event.target.value)"
+                            @change="saveEditInput('email', $event.target.value)"
                             :readonly="!editMode" :disabled="!editMode"
                             />
                         </td>
@@ -59,7 +108,7 @@
                         <td>CAD Password</td>
                         <td>
                             <textarea cols="50" rows="5" type="text" :value="userDetail.cad_password"
-                            @change="saveEditInput(key, $event.target.value)"
+                            @change="saveEditInput('cad_password', $event.target.value)"
                             :readonly="!editMode" :disabled="!editMode"
                             />
                         </td>
@@ -76,14 +125,16 @@
                         </td>
                     </tr>
                 </tbody>
-            </table>
+            </table>-->
         </div>
     </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import Swal from 'sweetalert2';
+import api from '@/services/api';
+import UserService from '@/services/user.service';
+import EventBus from '@/common/EventBus';
 
 export default {
     name: 'ProfilePage',
@@ -99,26 +150,31 @@ export default {
             file: null
         }
     },
-    created() {
-        let url = `${process.env.VUE_APP_API}/${this.userGroup}/user/${this.user}`
-        this.axios({
-            method: 'get',
-            url: url,
-            headers: { "Content-Type": "application/json" }
-        }).then((response) => {
-            if (response.data.data != false) {
-                this.userDetail = response.data.data
+    async mounted() {
+        UserService.getUserCurrent().then(
+            (response) => {
+                this.userDetail = response.data;
+                // สำหรับส่งข้อมูลไปแก้ไขข้อมูลผู้ใช้
                 this.name = this.userDetail.name;
                 this.company = this.userDetail.company;
                 this.email = this.userDetail.email;
                 this.cad_password = this.userDetail.cad_password;
+            },
+            error => {
+                this.content = 
+                (error.response && error.response.data && error.response.data.message) ||
+                error.message ||
+                error.toString()
+
+                if (error.response && error.response.status === 403) {
+                    EventBus.dispatch("logout");
+                }
             }
-        })
+        )
     },
     methods: {
         saveEditInput(field, value) {
             this[field] = value;
-            console.log(this[field]);
         },
         toggleEditMode() {
             if (this.editMode == true) {
@@ -157,7 +213,6 @@ export default {
                     let formData = new FormData();
                     const json = JSON.stringify(data);
                     var file_check = 'withoutfile'
-                    console.log(this.file);
                     formData.append("user_data", json);
                     
                     if (this.file) {
@@ -165,9 +220,9 @@ export default {
                         file_check = 'withfile'
                     }
 
-                    this.axios({
+                    api({
                         method: 'post',
-                        url: `${process.env.VUE_APP_API}/${this.userGroup}/edit/user/${file_check}`,
+                        url: `/user/update/${file_check}`,
                         data: formData,
                         headers: { "Content-Type": "multipart/form-data"},
                     }).then((response) => {
@@ -204,8 +259,9 @@ export default {
         },
     },
     computed: {
-        ...mapGetters(['user']),
-        ...mapGetters(['userGroup'])
+        currentUser() {
+            return this.$store.state.auth.user;
+        }
     }
 }
 </script>

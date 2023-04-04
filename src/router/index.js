@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import store from '../store'
 import WaitingAll from '../views/WaitingAll.vue';
 import CompleteAll from '../views/CompleteAll.vue';
 import SignPage from '../views/SignPage.vue';
@@ -65,11 +64,11 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const requiresAuth = to.matched.some((x) => x.meta.requiresAuth);
     const requiresGuest = to.matched.some((x) => x.meta.requiresGuest);
-    const isLoggedIn = store.getters.isLoggedIn;
+    const currentUser = localStorage.getItem('user');
 
-    if (requiresAuth && !isLoggedIn) {
+    if (requiresAuth && !currentUser) {
         next({ name: 'login' });
-    } else if (requiresGuest && isLoggedIn) {
+    } else if (requiresGuest && currentUser) {
         next({ name: 'waiting' });
     } else {
         next();

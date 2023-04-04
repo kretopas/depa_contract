@@ -2,6 +2,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import setupInterceptors from '@/services/setupInterceptors'
+
 // ? import BootStrap
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
@@ -23,10 +25,12 @@ library.add(faInfoCircle)
 library.add(faPencil)
 library.add(faFloppyDisk)
     // createApp(App).use(store).use(router).mount('#app')
-const application = createApp(App)
-application.use(store)
-application.use(router)
-application.use(VueAxios, axios)
-application.component('font-awesome-icon', FontAwesomeIcon)
-application.provide('axios', application.config.globalProperties.axios)
-application.mount("#app")
+setupInterceptors(store);
+
+const app = createApp(App)
+app.use(store)
+app.use(router)
+app.use(VueAxios, axios)
+app.component('font-awesome-icon', FontAwesomeIcon)
+app.provide('axios', app.config.globalProperties.axios)
+app.mount("#app")

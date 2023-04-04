@@ -31,38 +31,20 @@ export default {
                 username: this.username,
                 password: this.password
             };
-            this.axios({
-                method: 'post',
-                url: `${process.env.VUE_APP_API}/login`,
-                data: data,
-                headers: { "Content-Type": "application/json" }
-            }).then((response) => {
-                if (response.data.data != false) {
-                    localStorage.setItem('userid', response.data.data);
-                    if (response.data.group == 1) {
-                        this.$store.dispatch('userGroup', 'employee')
-                    } else if (response.data.group == 9) {
-                        this.$store.dispatch('userGroup', 'contractor')
-                    }
-                    this.$store.dispatch('isLoggedIn', true);
-                    this.$store.dispatch('user', response.data.data);
-                    this.$router.push("/");
-                } else {
+            this.$store.dispatch('auth/login', data).then(
+                () => {
+                    this.$router.push("/")
+                },
+                (error) => {
+                    console.log(error)
                     Swal.fire({
-                        title: 'ผิดพลาด',
-                        icon: 'error',
-                        html: 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง',
+                        title: 'เกิดข้อผิดลพาด',
+                        icon: 'warning',
+                        html: 'ไม่สามารถเข้าสู่ระบบได้<br/>กรุณาตรวจสอบข้อมูลอีกครั้ง',
                         confirmButtonText: 'ตกลง'
                     })
                 }
-            }).catch(() => {
-                Swal.fire({
-                    title: 'เกิดข้อผิดพลาด',
-                    icon: 'warning',
-                    html: 'ไม่สามารถเข้าสู่ระบบได้<br/>กรุณาตรวจสอบข้อมูลอีกครั้ง',
-                    confirmButtonText: 'ตกลง'
-                })
-            })
+            )
         }
     }
 }

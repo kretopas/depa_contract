@@ -7,6 +7,7 @@
 <script>
 import MainHeader from '@/components/MainHeader.vue';
 // import MainFooter from '@/components/MainFooter.vue';
+import EventBus from '@/common/EventBus';
 
 export default {
   name: 'MainApp',
@@ -18,6 +19,20 @@ export default {
     return {
     }
   },
+  methods: {
+    logOut() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/login');
+    },
+  },
+  mounted() {
+    EventBus.on("logout", () => {
+      this.logOut()
+    });
+  },
+  beforeUnmount() {
+    EventBus.remove("logout");
+  }
 }
 </script>
 
@@ -47,18 +62,22 @@ nav {
   margin: 10px
 }
 
-.btn-left {
-  float: left;
+/*.btn-left {
   margin: 10px;
-}
+}*/
 
 .form-group {
   margin-left: 10px;
   margin-bottom: 10px;
 }
 
+.btn-row {
+  display: flex;
+  padding-top: 10px;
+}
+
 .btn-block {
-  margin-left: 10px;
+  margin-right: 10px;
 }
 /* nav a {
   font-weight: bold;
