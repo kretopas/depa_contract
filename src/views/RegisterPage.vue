@@ -67,6 +67,7 @@
 
 <script>
 import Swal from 'sweetalert2';
+import helper from '@/helpers/helper';
 
 export default {
     name: 'RegisterPage',
@@ -85,13 +86,6 @@ export default {
         }
     },
     methods: {
-        LoadingAlert() {
-            Swal.fire({
-                title: 'กรุณารอสักครู่',
-                allowOutsideClick: false
-            })
-            Swal.showLoading()
-        },
         checkPasswordMatched() {
             if (this.password.length > 0 && this.confirm_password.length > 0) {
                 if (this.password === this.confirm_password) {
@@ -114,7 +108,7 @@ export default {
                 cancelButtonColor: "#d33"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    this.LoadingAlert();
+                    helper.loadingAlert();
                     var data = {
                         name: this.name,
                         company: this.company,

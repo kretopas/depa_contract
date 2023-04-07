@@ -8,7 +8,6 @@
 import MainHeader from '@/components/MainHeader.vue';
 // import MainFooter from '@/components/MainFooter.vue';
 import EventBus from '@/common/EventBus';
-import Swal from 'sweetalert2';
 
 export default {
   name: 'MainApp',
@@ -25,13 +24,6 @@ export default {
       this.$store.dispatch('auth/logout');
       this.$router.push('/login');
     },
-    LoadingAlert() {
-            Swal.fire({
-                title: 'กรุณารอสักครู่',
-                allowOutsideClick: false
-            })
-            Swal.showLoading()
-        },
   },
   mounted() {
     EventBus.on("logout", () => {

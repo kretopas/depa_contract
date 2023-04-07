@@ -55,6 +55,7 @@ import Swal from 'sweetalert2';
 //import api from '@/services/api';
 import DocumentService from '@/services/document.service';
 import EventBus from '@/common/EventBus';
+import helper from '@/helpers/helper';
 
 export default {
     name: 'SignPage',
@@ -82,13 +83,6 @@ export default {
         )
     },
     methods: {
-        //LoadingAlert() {
-        //    Swal.fire({
-        //        title: 'กรุณารอสักครู่',
-        //        allowOutsideClick: false
-        //    })
-        //    Swal.showLoading()
-        //},
         signDocument() {
             Swal.fire({
                 title: "ยืนยัน?",
@@ -101,8 +95,7 @@ export default {
                 cancelButtonText: "ยกเลิก"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    this.$parent.LoadingAlert();
-
+                    helper.loadingAlert();
                     let url = `${process.env.VUE_APP_API}/${this.userGroup}/doc/sign/${this.user}/${this.$route.params.id}`
                     this.axios({
                         method: 'get',
