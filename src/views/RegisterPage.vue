@@ -1,6 +1,6 @@
 <template>
+    <h1 class="page-title">{{ page_title }}</h1>
     <div class="container">
-        <h1 style="margin-top: 10px;">ลงทะเบียนผู้ใช้งาน</h1>
         <form @submit.prevent="sendRegisterData" style="margin-top: 20px;">
             <div class="form-group row">
                 <label for="name" class="col-sm-2 col-form-label">ชื่อ-นามสกุล</label>
@@ -72,6 +72,7 @@ export default {
     name: 'RegisterPage',
     data() {
         return {
+            page_title: 'ลงทะเบียนผู้ใช้งาน',
             name: '',
             company: '',
             email: '',

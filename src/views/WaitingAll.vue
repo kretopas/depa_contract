@@ -1,4 +1,5 @@
 <template>
+    <h1 class="page-title">{{ page_title }}</h1>
     <div class="container" v-if="currentUser && documents.length > 0">
         <div v-for="document in documents" v-bind:key="document">
             <div :class="'card text-bg-warning'">
@@ -29,6 +30,7 @@ export default {
     name: 'WaitingTicket',
     data() {
         return {
+            page_title: "เอกสารรอดำเนินการ",
             documents: []
         }
     },

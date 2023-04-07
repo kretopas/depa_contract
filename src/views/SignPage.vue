@@ -1,4 +1,5 @@
 <template>
+    <h1 class="page-title">{{ page_title }}</h1>
     <div class="container" v-if="currentUser">
         <div v-if="document">
             <div class="btn-row">
@@ -8,34 +9,38 @@
                     </button>
                 </router-link>
             </div>
-            <div style="margin-top: 20px;">
-                <form>
-                    
+            <div class="form-box">
+                <form @submit.prevent="signDocument">
+                    <div class="form-group row mb-3">
+                        <label for="doc_number" class="col-sm-2 col-form-label">
+                            เลขหนังสือ
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                            id="doc_number" :value="document.name"
+                            :readonly="true"/>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="subject" class="col-sm-2 col-form-label">
+                            ชื่อหนังสือ
+                        </label>
+                        <div class="col-sm-10">
+                            <textarea cols="50" rows="4" class="form-control"
+                            id="subject" :value="document.subject"
+                            :readonly="true"/>
+                        </div>
+                        <div style="padding-top: 10px;">
+                            <button class="btn btn-clear btn-block btn-warning">
+                                ตัวอย่างเอกสาร
+                            </button>
+                            <button class="btn btn-clear btn-block btn-success">
+                                ลงนาม
+                            </button>
+                        </div>
+                    </div>
                 </form>
             </div>
-            <table width="80%" class="table table-bordered table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th scope="col">รายการ</th>
-                        <th scope="col">ข้อมูล</th>
-                    </tr>
-                </thead>
-                <tbody align="left">
-                    <tr>
-                        <td>เลขหนังสือ</td>
-                        <td>{{ document.name }}</td>
-                    </tr>
-                    <tr>
-                        <td>ชื่อหนังสือ</td>
-                        <td>{{ document.subject }}</td>
-                    </tr>
-                </tbody>
-                <div style="padding-top: 10px">
-                    <button type="button" class="btn btn-clear btn-success" @click="signDocument">
-                        ลงนาม
-                    </button>
-                </div>
-            </table>
         </div>
         <div align="center" v-else-if="document == false">
             <p class="false-text">
@@ -55,23 +60,10 @@ export default {
     name: 'SignPage',
     data() {
         return {
+            page_title: 'ลงนามเอกสาร',
             document: null
         }
     },
-    //created() {
-    //    let url = `${process.env.VUE_APP_API}/${this.userGroup}/doc/detail/${this.user}/${this.$route.params.id}`
-    //    this.axios({
-    //        method: 'get',
-    //        url: url,
-    //        headers: { "Content-Type": "application/json" }
-    //    }).then((response) => {
-    //        if (response.data.data != false) {
-    //            this.document = response.data.data
-    //        } else {
-    //            this.document = false
-    //        }
-    //    })
-    //},
     async mounted() {
         DocumentService.getDocumentDetail(this.$route.params.id).then(
             (response) => {
@@ -90,13 +82,13 @@ export default {
         )
     },
     methods: {
-        LoadingAlert() {
-            Swal.fire({
-                title: 'กรุณารอสักครู่',
-                allowOutsideClick: false
-            })
-            Swal.showLoading()
-        },
+        //LoadingAlert() {
+        //    Swal.fire({
+        //        title: 'กรุณารอสักครู่',
+        //        allowOutsideClick: false
+        //    })
+        //    Swal.showLoading()
+        //},
         signDocument() {
             Swal.fire({
                 title: "ยืนยัน?",
@@ -109,7 +101,7 @@ export default {
                 cancelButtonText: "ยกเลิก"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    this.LoadingAlert();
+                    this.$parent.LoadingAlert();
 
                     let url = `${process.env.VUE_APP_API}/${this.userGroup}/doc/sign/${this.user}/${this.$route.params.id}`
                     this.axios({

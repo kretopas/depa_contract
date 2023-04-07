@@ -8,6 +8,7 @@
 import MainHeader from '@/components/MainHeader.vue';
 // import MainFooter from '@/components/MainFooter.vue';
 import EventBus from '@/common/EventBus';
+import Swal from 'sweetalert2';
 
 export default {
   name: 'MainApp',
@@ -24,6 +25,13 @@ export default {
       this.$store.dispatch('auth/logout');
       this.$router.push('/login');
     },
+    LoadingAlert() {
+            Swal.fire({
+                title: 'กรุณารอสักครู่',
+                allowOutsideClick: false
+            })
+            Swal.showLoading()
+        },
   },
   mounted() {
     EventBus.on("logout", () => {
@@ -78,6 +86,18 @@ nav {
 
 .btn-block {
   margin-right: 10px;
+}
+
+.form-box {
+  margin-top: 20px;
+}
+
+.form-label {
+  text-align: left;
+}
+
+.page-title {
+  margin-top: 10px;
 }
 /* nav a {
   font-weight: bold;

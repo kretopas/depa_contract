@@ -1,4 +1,5 @@
 <template>
+    <h1 class="page-title">{{ page_title }}</h1>
     <div class="container" v-if="currentUser">
         <div v-if="userDetail">
             <div v-if="!editMode" class="btn-row">
@@ -21,7 +22,7 @@
                 </button>
             </div>
             <div>
-                <form style="margin-top: 20px;">
+                <form class="form-box">
                     <div class="form-group row mb-3">
                         <label for="name" class="col-sm-2 col-form-label">ชื่อ-นามสกุล</label>
                         <div class="col-sm-10">
@@ -135,11 +136,13 @@ import Swal from 'sweetalert2';
 import api from '@/services/api';
 import UserService from '@/services/user.service';
 import EventBus from '@/common/EventBus';
+import helper from '@/helpers/helper';
 
 export default {
     name: 'ProfilePage',
     data() {
         return {
+            page_title: 'ข้อมูลของฉัน',
             userDetail: '',
             name: '',
             company: '',
@@ -183,13 +186,6 @@ export default {
                 this.editMode = true
             }
         },
-        LoadingAlert() {
-            Swal.fire({
-                title: 'กรุณารอสักครู่',
-                allowOutsideClick: false
-            })
-            Swal.showLoading()
-        },
         sendEditData() {
             Swal.fire({
                 title: "ยืนยัน?",
@@ -202,7 +198,7 @@ export default {
                 cancelButtonText: "ยกเลิก"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    this.LoadingAlert();
+                    helper.loadingAlert();
                     var data = {
                         user_id: this.user,
                         name: this.name,
