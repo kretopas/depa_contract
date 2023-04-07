@@ -31,8 +31,10 @@
                             :readonly="true"/>
                         </div>
                         <div style="padding-top: 10px;">
-                            <button class="btn btn-clear btn-block btn-warning">
-                                ตัวอย่างเอกสาร
+                            <button type="button" class="btn btn-clear btn-block btn-warning"
+                            @click="downloadDocument"
+                            >
+                                ดาวน์โหลดเอกสาร
                             </button>
                             <button class="btn btn-clear btn-block btn-success">
                                 ลงนาม
@@ -62,7 +64,9 @@ export default {
     data() {
         return {
             page_title: 'ลงนามเอกสาร',
-            document: null
+            document: null,
+            preview_src: null,
+            preview_pdf: false,
         }
     },
     async mounted() {
@@ -83,6 +87,39 @@ export default {
         )
     },
     methods: {
+        showModalPreview() {
+            Swal.fire({
+                html: `<embed src="${this.preview_src}" type="application/pdf" height="500px" width="100%"/>`,
+                showCloseButton: true,
+                showConfirmButton: false,
+                width: '80%'
+            });
+        },
+        downloadDocument() {
+            if (!this.preview_src) {
+                helper.loadingAlert();
+                DocumentService.previewDocument(this.$route.params.id).then(
+                    (response) => {
+                        if (response.data != false) {
+                            this.preview_src = `data:application/pdf;base64,${response.data}`;
+                            this.showModalPreview();
+                        }
+                    },
+                    error => {
+                        this.content =
+                        (error.response && error.response.data && error.response.data.message) ||
+                        error.message ||
+                        error.toString()
+
+                        if (error.response && error.response.status === 403) {
+                            EventBus.dispatch("logout");
+                        }
+                    }
+                )
+            } else {
+                this.showModalPreview();
+            }
+        },
         signDocument() {
             Swal.fire({
                 title: "ยืนยัน?",

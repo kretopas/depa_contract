@@ -1,45 +1,56 @@
 <template>
     <h1 class="page-title">{{ page_title }}</h1>
     <div class="container">
-        <form @submit.prevent="sendRegisterData" style="margin-top: 20px;">
+        <form @submit.prevent="sendRegisterData" class="form-box">
             <div class="form-group row">
                 <label for="name" class="col-sm-2 col-form-label">ชื่อ-นามสกุล</label>
                 <div class="col-sm-10">
-                    <input type="text" id="name" v-model="name" class="form-control" required/>
+                    <input type="text" class="form-control" 
+                    id="name" v-model="name"
+                    required/>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="company" class="col-sm-2 col-form-label">บริษัท</label>
                 <div class="col-sm-10">
-                    <input type="text" id="company" v-model="company" class="form-control" required/>
+                    <input type="text" class="form-control" 
+                    id="company" v-model="company"
+                    required/>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="email" class="col-sm-2 col-form-label">อีเมล</label>
                 <div class="col-sm-10">
-                    <input type="text" id="email" v-model="email" class="form-control" required/>
+                    <input type="text" class="form-control" 
+                    id="email" v-model="email"
+                    required/>
                 </div>
             </div>
-            <div class="form-group row">
+            <!--<div class="form-group row">
                 <label for="cad_password" class="col-sm-2 col-form-label">CAD Password</label>
                 <div class="col-sm-10">
-                    <textarea cols="50" rows="5" type="text" v-model="cad_password" class="form-control" required/>
+                    <textarea cols="50" rows="5" class="form-control"
+                    type="text" v-model="cad_password"
+                    required/>
                 </div>
-            </div>
+            </div>-->
             <div class="form-group row">
                 <label for="img_file" class="col-sm-2 col-form-label">ภาพลายเซ็น</label>
                 <div class="col-sm-10">
-                    <input type="file" id="image" name="image" required @change="selectedFile($event.target.files)"/>
+                    <input type="file" class="form-control"
+                    id="image" name="image"
+                    required
+                    @change="selectedFile($event.target.files)"/>
                 </div>
             </div>
-
             <div class="form-group row">
                 <label for="username" class="col-sm-2 col-form-label">ชื่อผู้ใช้</label>
                 <div class="col-sm-10">
-                    <input type="text" id="username" v-model="username" class="form-control" required/>
+                    <input type="text" class="form-control" 
+                    id="username" v-model="username"
+                    required/>
                 </div>
             </div>
-
             <div class="form-group row">
                 <label for="email" class="col-sm-2 col-form-label">รหัสผ่าน</label>
                 <div class="col-sm-10">
@@ -49,7 +60,6 @@
                     @keyup="checkPasswordMatched"/>
                 </div>
             </div>
-
             <div class="form-group row">
                 <label for="email" class="col-sm-2 col-form-label">ยืนยันรหัสผ่าน</label>
                 <div class="col-sm-10">
@@ -68,6 +78,7 @@
 <script>
 import Swal from 'sweetalert2';
 import helper from '@/helpers/helper';
+import UserService from '@/services/user.service';
 
 export default {
     name: 'RegisterPage',
@@ -77,7 +88,7 @@ export default {
             name: '',
             company: '',
             email: '',
-            cad_password: '',
+            //cad_password: '',
             file: null,
             username: '',
             password: '',
@@ -113,7 +124,7 @@ export default {
                         name: this.name,
                         company: this.company,
                         email: this.email,
-                        cad_password: this.cad_password,
+                        //cad_password: this.cad_password,
                         username: this.username,
                         password: this.password
                     }
@@ -121,14 +132,8 @@ export default {
                     const json = JSON.stringify(data);
                     formData.append("user_data", json);
                     formData.append("sign_img", this.file);
-
-                    this.axios({
-                        method: 'post',
-                        url: `${process.env.VUE_APP_API}/contractor/register/user`,
-                        data: formData,
-                        headers: { "Content-Type": "multipart/form-data" },
-                    }).then((response) => {
-                        if (response.data.data != false) {
+                    UserService.registerUser(formData).then(
+                        () => {
                             Swal.fire({
                                 title: 'ลงทะเบียนสำเร็จ',
                                 html: 'ระบบจะพาท่านกลับไปยังหน้าเข้าสู่ระบบ',
@@ -137,15 +142,40 @@ export default {
                             }).then(() => {
                                 this.$router.push("/");
                             })
-                        } else {
+                        },
+                        (err) => {
                             Swal.fire({
                                 title: 'ผิดพลาด',
                                 icon: 'error',
-                                html: 'ไม่สามารถลงทะเบียนผู้ใช้งานได้',
+                                html: err,
                                 confirmButtonText: 'ตกลง'
                             })
                         }
-                    })
+                    )
+                    //this.axios({
+                    //    method: 'post',
+                    //    url: `${process.env.VUE_APP_API}/contractor/register/user`,
+                    //    data: formData,
+                    //    headers: { "Content-Type": "multipart/form-data" },
+                    //}).then((response) => {
+                    //    if (response.data.data != false) {
+                    //        Swal.fire({
+                    //            title: 'ลงทะเบียนสำเร็จ',
+                    //            html: 'ระบบจะพาท่านกลับไปยังหน้าเข้าสู่ระบบ',
+                    //            icon: 'success',
+                    //            confirmButtonText: 'ตกลง'
+                    //        }).then(() => {
+                    //            this.$router.push("/");
+                    //        })
+                    //    } else {
+                    //        Swal.fire({
+                    //            title: 'ผิดพลาด',
+                    //            icon: 'error',
+                    //            html: 'ไม่สามารถลงทะเบียนผู้ใช้งานได้',
+                    //            confirmButtonText: 'ตกลง'
+                    //        })
+                    //    }
+                    //})
                 }
             })
         },

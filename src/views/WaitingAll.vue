@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="container" v-else>
-        <p style="margin: 10px;"><b>ไม่มีเอกสารที่รอการลงนามในขณะนี้</b></p>
+        <p><b>ไม่มีเอกสารที่รอการลงนามในขณะนี้</b></p>
     </div>
 </template>
 

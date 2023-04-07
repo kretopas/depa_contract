@@ -142,7 +142,7 @@ export default {
     name: 'ProfilePage',
     data() {
         return {
-            page_title: 'ข้อมูลของฉัน',
+            page_title: 'ข้อมูลผู้ใช้งาน',
             userDetail: '',
             name: '',
             company: '',
