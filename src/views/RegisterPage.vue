@@ -133,49 +133,15 @@ export default {
                     formData.append("user_data", json);
                     formData.append("sign_img", this.file);
                     UserService.registerUser(formData).then(
-                        () => {
-                            Swal.fire({
-                                title: 'ลงทะเบียนสำเร็จ',
-                                html: 'ระบบจะพาท่านกลับไปยังหน้าเข้าสู่ระบบ',
-                                icon: 'success',
-                                confirmButtonText: 'ตกลง'
-                            }).then(() => {
+                        success => {
+                            helper.successAlert(success, () => {
                                 this.$router.push("/");
                             })
                         },
-                        (err) => {
-                            Swal.fire({
-                                title: 'ผิดพลาด',
-                                icon: 'error',
-                                html: err,
-                                confirmButtonText: 'ตกลง'
-                            })
+                        error => {
+                            helper.failAlert(error);
                         }
                     )
-                    //this.axios({
-                    //    method: 'post',
-                    //    url: `${process.env.VUE_APP_API}/contractor/register/user`,
-                    //    data: formData,
-                    //    headers: { "Content-Type": "multipart/form-data" },
-                    //}).then((response) => {
-                    //    if (response.data.data != false) {
-                    //        Swal.fire({
-                    //            title: 'ลงทะเบียนสำเร็จ',
-                    //            html: 'ระบบจะพาท่านกลับไปยังหน้าเข้าสู่ระบบ',
-                    //            icon: 'success',
-                    //            confirmButtonText: 'ตกลง'
-                    //        }).then(() => {
-                    //            this.$router.push("/");
-                    //        })
-                    //    } else {
-                    //        Swal.fire({
-                    //            title: 'ผิดพลาด',
-                    //            icon: 'error',
-                    //            html: 'ไม่สามารถลงทะเบียนผู้ใช้งานได้',
-                    //            confirmButtonText: 'ตกลง'
-                    //        })
-                    //    }
-                    //})
                 }
             })
         },

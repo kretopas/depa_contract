@@ -47,14 +47,14 @@
                             required :readonly="!editMode" :disabled="!editMode"/>
                         </div>
                     </div>
-                    <div class="form-group row mb-3">
+                    <!--<div class="form-group row mb-3">
                         <label for="cad_password" class="col-sm-2 col-form-label">CAD password</label>
                         <div class="col-sm-10">
                             <textarea cols="50" rows="4" class="form-control"
                             id="cad_password" v-model="cad_password"
                             required :readonly="!editMode" :disabled="!editMode"/>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="form-group row mb-3">
                         <label for="sign_img" class="col-sm-2 col-form-label">ภาพลายเซ็น</label>
                         <div class="col-sm-10" id="sign_img">
@@ -133,7 +133,6 @@
 
 <script>
 import Swal from 'sweetalert2';
-import api from '@/services/api';
 import UserService from '@/services/user.service';
 import EventBus from '@/common/EventBus';
 import helper from '@/helpers/helper';
@@ -147,7 +146,7 @@ export default {
             name: '',
             company: '',
             email: '',
-            cad_password: '',
+            //cad_password: '',
             editMode: false,
             imageWidth: '300px',
             file: null
@@ -161,7 +160,7 @@ export default {
                 this.name = this.userDetail.name;
                 this.company = this.userDetail.company;
                 this.email = this.userDetail.email;
-                this.cad_password = this.userDetail.cad_password;
+                //this.cad_password = this.userDetail.cad_password;
             },
             error => {
                 this.content = 
@@ -204,49 +203,28 @@ export default {
                         name: this.name,
                         company: this.company,
                         email: this.email,
-                        cad_password: this.cad_password,
+                        //cad_password: this.cad_password,
                     }
                     let formData = new FormData();
                     const json = JSON.stringify(data);
-                    var file_check = 'withoutfile'
+                    var fileCheck = 'withoutfile'
                     formData.append("user_data", json);
                     
                     if (this.file) {
                         formData.append("sign_img", this.file)
-                        file_check = 'withfile'
+                        fileCheck = 'withfile'
                     }
 
-                    api({
-                        method: 'post',
-                        url: `/user/update/${file_check}`,
-                        data: formData,
-                        headers: { "Content-Type": "multipart/form-data"},
-                    }).then((response) => {
-                        if (response.data.data != false) {
-                            Swal.fire({
-                                        title: 'สำเร็จ!',
-                                        html: 'เปลี่ยนข้อมูลผู้ใช้สำเร็จแล้ว',
-                                        icon: 'success',
-                                        confirmButtonText: 'OK'
-                                    }).then(() => {
-                                        location.reload();
-                                    })
-                        } else {
-                            Swal.fire({
-                                title: 'ผิดพลาด',
-                                html: 'มีข้อผิดพลาดในการเปลี่ยนข้อมูลผู้ใช้',
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            })
+                    UserService.updateUser(fileCheck, formData).then(
+                        success => {
+                            helper.successAlert(success, () => {
+                                location.reload();
+                            });
+                        },
+                        error => {
+                            helper.failAlert(error);
                         }
-                    }).catch(() => {
-                        Swal.fire({
-                            title: 'ผิดพลาด',
-                            html: 'มีช้อผิดพลาดในการลงนาม',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        })
-                    })
+                    )
                 }
             })
         },

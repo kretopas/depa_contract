@@ -52,9 +52,7 @@
 </template>
 
 <script>
-//import { mapGetters } from 'vuex';
 import Swal from 'sweetalert2';
-//import api from '@/services/api';
 import DocumentService from '@/services/document.service';
 import EventBus from '@/common/EventBus';
 import helper from '@/helpers/helper';
@@ -99,7 +97,7 @@ export default {
             if (!this.preview_src) {
                 helper.loadingAlert();
                 DocumentService.previewDocument(this.$route.params.id).then(
-                    (response) => {
+                    response => {
                         if (response.data != false) {
                             this.preview_src = `data:application/pdf;base64,${response.data}`;
                             this.showModalPreview();
@@ -169,8 +167,6 @@ export default {
         }
     },
     computed: {
-        //...mapGetters(['user']),
-        //...mapGetters(['userGroup'])
         currentUser() {
             return this.$store.state.auth.user;
         }
