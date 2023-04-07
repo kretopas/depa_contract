@@ -32,9 +32,9 @@
                         </div>
                         <div style="padding-top: 10px;">
                             <button type="button" class="btn btn-clear btn-block btn-warning"
-                            @click="downloadDocument"
+                            @click="previewDocument"
                             >
-                                ดาวน์โหลดเอกสาร
+                                ตัวอย่างเอกสาร
                             </button>
                             <button class="btn btn-clear btn-block btn-success">
                                 ลงนาม
@@ -93,7 +93,7 @@ export default {
                 width: '80%'
             });
         },
-        downloadDocument() {
+        previewDocument() {
             if (!this.preview_src) {
                 helper.loadingAlert();
                 DocumentService.previewDocument(this.$route.params.id).then(
@@ -131,37 +131,16 @@ export default {
             }).then((result) => {
                 if (result.isConfirmed) {
                     helper.loadingAlert();
-                    let url = `${process.env.VUE_APP_API}/${this.userGroup}/doc/sign/${this.user}/${this.$route.params.id}`
-                    this.axios({
-                        method: 'get',
-                        url: url,
-                        headers: { "Content-Type": "application/json" }
-                    }).then((response) => {
-                        if (response.data.data != false) {
-                            Swal.fire({
-                                title: 'สำเร็จ!',
-                                html: 'ลงนามสำเร็จแล้ว',
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            }).then(() => {
+                    DocumentService.signDocument(this.$route.params.id).then(
+                        success => {
+                            helper.successAlert(success, () => {
                                 this.$router.push("/");
                             })
-                        } else {
-                            Swal.fire({
-                                title: 'ผิดพลาด',
-                                html: 'มีข้อผิดพลาดในการลงนาม',
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            })
+                        },
+                        error => {
+                            helper.failAlert(error);
                         }
-                    }).catch(() => {
-                        Swal.fire({
-                            title: 'ผิดพลาด',
-                            html: 'มีข้อผิดพลาดในการลงนาม',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        })
-                    })
+                    )
                 }
             })
         }

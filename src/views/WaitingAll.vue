@@ -27,7 +27,7 @@ import DocumentService from '@/services/document.service';
 import EventBus from '@/common/EventBus';
 
 export default {
-    name: 'WaitingTicket',
+    name: 'WaitingDocument',
     data() {
         return {
             page_title: "เอกสารรอดำเนินการ",
@@ -36,7 +36,7 @@ export default {
     },
     async mounted() {
         DocumentService.getWaitingDocuments().then(
-            (response) => {
+            response => {
                 this.documents = response.data;
             },
             error => {
