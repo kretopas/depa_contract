@@ -62,10 +62,6 @@ nav {
   margin: 10px
 }
 
-/*.btn-left {
-  margin: 10px;
-}*/
-
 .form-group {
   margin-left: 10px;
   margin-bottom: 10px;
