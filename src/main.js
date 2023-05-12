@@ -22,7 +22,7 @@ library.add(faChevronLeft)
 library.add(faInfoCircle)
 library.add(faPencil)
 library.add(faFloppyDisk)
-    // createApp(App).use(store).use(router).mount('#app')
+
 setupInterceptors(store);
 
 const app = createApp(App)

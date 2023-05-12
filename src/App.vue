@@ -1,19 +1,16 @@
 <template>
   <MainHeader/>
   <router-view/>
-  <!-- <MainFooter/> -->
 </template>
 
 <script>
 import MainHeader from '@/components/MainHeader.vue';
-// import MainFooter from '@/components/MainFooter.vue';
 import EventBus from '@/common/EventBus';
 
 export default {
   name: 'MainApp',
   components: {
     MainHeader,
-    // MainFooter
   },
   data() {
     return {
@@ -87,12 +84,4 @@ nav {
 .page-title {
   margin-top: 10px;
 }
-/* nav a {
-  font-weight: bold;
-  color: #2c3e50;
-} */
-
-/*nav a.router-link-exact-active {
-  color: #42b983;
-} */
 </style>

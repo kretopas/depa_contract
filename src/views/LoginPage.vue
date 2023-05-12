@@ -20,6 +20,7 @@
                     </div>
                 </div>
                 <button class="btn btn-primary btn-block">เข้าสู่ระบบ</button>
+                <button type="button" class="btn btn-primary btn-block" @click="goRegister">ลงทะเบียน</button>
             </form>
         </div>
     </div>
@@ -47,8 +48,7 @@ export default {
                 () => {
                     this.$router.push("/")
                 },
-                (error) => {
-                    console.log(error)
+                () => {
                     Swal.fire({
                         title: 'เกิดข้อผิดลพาด',
                         icon: 'warning',
@@ -57,6 +57,9 @@ export default {
                     })
                 }
             )
+        },
+        goRegister() {
+            this.$router.push("/register")
         }
     }
 }

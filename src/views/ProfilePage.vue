@@ -47,14 +47,6 @@
                             required :readonly="!editMode" :disabled="!editMode"/>
                         </div>
                     </div>
-                    <!--<div class="form-group row mb-3">
-                        <label for="cad_password" class="col-sm-2 col-form-label">CAD password</label>
-                        <div class="col-sm-10">
-                            <textarea cols="50" rows="4" class="form-control"
-                            id="cad_password" v-model="cad_password"
-                            required :readonly="!editMode" :disabled="!editMode"/>
-                        </div>
-                    </div>-->
                     <div class="form-group row mb-3">
                         <label for="sign_img" class="col-sm-2 col-form-label">ภาพลายเซ็น</label>
                         <div class="col-sm-10" id="sign_img">
@@ -70,63 +62,6 @@
                     </div>
                 </form>
             </div>
-            <!--<table width="80%" class="table table-bordered table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th scope="col">รายการ</th>
-                        <th scope="col">ข้อมูล</th>
-                    </tr>
-                </thead>
-                <tbody align="left">
-                    <tr>
-                        <td>ชื่อ-นามสกุล</td>
-                        <td>
-                            <input type="text" :value="userDetail.name"
-                            @change="saveEditInput('name', $event.target.value)"
-                            :readonly="!editMode" :disabled="!editMode"
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>บริษัท</td>
-                        <td>
-                            <input type="text" :value="userDetail.company"
-                            @change="saveEditInput('company', $event.target.value)"
-                            :readonly="!editMode" :disabled="!editMode"
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>อีเมล</td>
-                        <td>
-                            <input type="text" :value="userDetail.email"
-                            @change="saveEditInput('email', $event.target.value)"
-                            :readonly="!editMode" :disabled="!editMode"
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>CAD Password</td>
-                        <td>
-                            <textarea cols="50" rows="5" type="text" :value="userDetail.cad_password"
-                            @change="saveEditInput('cad_password', $event.target.value)"
-                            :readonly="!editMode" :disabled="!editMode"
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>ภาพลายเซ็น</td>
-                        <td>
-                            <img v-bind:src="'data:image/png;base64,'+userDetail.sign_img"
-                            style="width: 200px; height: 100px;"
-                            />
-                            <div v-if="editMode">
-                                <input type="file" id="image" name="image" @change="$event => selectedFile($event.target.files)"/>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>-->
         </div>
     </div>
 </template>
@@ -146,7 +81,6 @@ export default {
             name: '',
             company: '',
             email: '',
-            //cad_password: '',
             editMode: false,
             imageWidth: '300px',
             file: null
@@ -156,11 +90,9 @@ export default {
         UserService.getUserCurrent().then(
             (response) => {
                 this.userDetail = response.data;
-                // สำหรับส่งข้อมูลไปแก้ไขข้อมูลผู้ใช้
                 this.name = this.userDetail.name;
                 this.company = this.userDetail.company;
                 this.email = this.userDetail.email;
-                //this.cad_password = this.userDetail.cad_password;
             },
             error => {
                 this.content = 
@@ -203,7 +135,6 @@ export default {
                         name: this.name,
                         company: this.company,
                         email: this.email,
-                        //cad_password: this.cad_password,
                     }
                     let formData = new FormData();
                     const json = JSON.stringify(data);

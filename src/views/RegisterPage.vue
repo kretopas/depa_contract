@@ -26,14 +26,6 @@
                     required/>
                 </div>
             </div>
-            <!--<div class="form-group row">
-                <label for="cad_password" class="col-sm-2 col-form-label">CAD Password</label>
-                <div class="col-sm-10">
-                    <textarea cols="50" rows="5" class="form-control"
-                    type="text" v-model="cad_password"
-                    required/>
-                </div>
-            </div>-->
             <div class="form-group row">
                 <label for="img_file" class="col-sm-2 col-form-label">ภาพลายเซ็น</label>
                 <div class="col-sm-10">
@@ -70,7 +62,7 @@
                 </div>
                 <p class="false-text" v-if="password_matched == false">รหัสผ่านไม่ตรงกัน</p>
             </div>
-            <button class="btn btn-primary btn-block">Register</button>
+            <button class="btn btn-primary btn-block">สมัครสมาชิก</button>
         </form>
     </div>
 </template>
@@ -88,7 +80,6 @@ export default {
             name: '',
             company: '',
             email: '',
-            //cad_password: '',
             file: null,
             username: '',
             password: '',
@@ -124,7 +115,6 @@ export default {
                         name: this.name,
                         company: this.company,
                         email: this.email,
-                        //cad_password: this.cad_password,
                         username: this.username,
                         password: this.password
                     }

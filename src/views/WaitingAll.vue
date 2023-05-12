@@ -52,8 +52,6 @@ export default {
         )
     },
     computed: {
-        //...mapGetters(['user']),
-        //...mapGetters(['userGroup'])
         currentUser() {
             return this.$store.state.auth.user;
         }
