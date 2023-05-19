@@ -1,6 +1,10 @@
 import Swal from 'sweetalert2';
 
 class MainHelper {
+	defaultCallback() {
+		location.reload();
+	}
+	
 	loadingAlert() {
 		Swal.fire({
 			title: 'กรุณารอสักครู่',
@@ -9,15 +13,15 @@ class MainHelper {
 		Swal.showLoading();
 	}
 
-	successAlert(message, callback) {
+	successAlert(title='สำเร็จ', message, callback=this.defaultCallback) {
 		Swal.fire({
-			title: 'สำเร็จ!',
+			title: title,
 			html: message,
 			icon: 'success',
 			confirmButtonText: 'ตกลง'
 		}).then(() => {
 			callback();
-		})
+		});
 	}
 
 	failAlert(message) {
@@ -27,6 +31,17 @@ class MainHelper {
 			icon: 'error',
 			confirmButtonText: 'ตกลง'
 		})
+	}
+
+	failAlertWithCallback(title='ผิดพลาด', message, callback) {
+		Swal.fire({
+			title: title,
+			html: message,
+			icon: 'error',
+			confirmButtonText: 'ตกลง'
+		}).then(() => {
+			callback();
+		});
 	}
 }
 

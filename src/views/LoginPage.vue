@@ -19,8 +19,20 @@
                         placeholder="Enter Password" />
                     </div>
                 </div>
-                <button class="btn btn-primary btn-block">เข้าสู่ระบบ</button>
-                <button type="button" class="btn btn-primary btn-block" @click="goRegister">ลงทะเบียน</button>
+                <div class="form-group row mb-3">
+                    <div class="mx-auto col-sm-4 form-label">
+                        <p class="false-text" v-if="validate == false">ชื่อผู้ใช้/รหัสผ่านไม่ถูกต้อง</p>
+                        <button class="btn btn-primary btn-block">เข้าสู่ระบบ</button>
+                        <button type="button" class="btn btn-primary btn-block" @click="goRegister">ลงทะเบียน</button>
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <div class="mx-auto col-sm-4 form-label">
+                        <router-link to="/forget">
+                            ลืมรหัสผ่าน
+                        </router-link>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -36,6 +48,7 @@ export default {
             page_title: 'เข้าสู่ระบบ',
             username: '',
             password: '',
+            validate: null,
         }
     },
     methods: {
@@ -45,8 +58,12 @@ export default {
                 password: this.password
             };
             this.$store.dispatch('auth/login', data).then(
-                () => {
-                    this.$router.push("/")
+                (response) => {
+                    if (response) {
+                        this.$router.push("/")
+                    } else {
+                        this.validate = false;
+                    }
                 },
                 () => {
                     Swal.fire({

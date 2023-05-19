@@ -34,6 +34,9 @@
                     <li class="nav-item">
                         <router-link to="/register"><a class="nav-link">ลงทะเบียน</a></router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link to="/forget"><a class="nav-link">ลืมรหัสผ่าน</a></router-link>
+                    </li>
                 </ul>
             </div>
         </div>

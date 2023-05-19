@@ -19,6 +19,17 @@ class AuthService {
 	logout() {
 		TokenService.removeUser();
 	}
+
+	forgetPassword(username) {
+		return api.get(`/forget/${username}`)
+		.then(response => {
+			if (response.data) {
+				return response.data;
+			} else {
+				return Promise.reject("ไม่พบชื่อผู้ใช้งานนี้ในระบบ");
+			}
+		});
+	}
 }
 
 export default new AuthService()

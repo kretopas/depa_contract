@@ -5,6 +5,7 @@ import SignPage from '../views/SignPage.vue';
 import LoginPage from '../views/LoginPage.vue';
 import ProfilePage from '../views/ProfilePage.vue';
 import RegisterPage from '../views/RegisterPage.vue';
+import ForgetPasswordPage from '../views/ForgetPasswordPage.vue';
 
 const routes = [{
         path: '/',
@@ -50,6 +51,14 @@ const routes = [{
         path: '/register',
         name: 'register',
         component: RegisterPage,
+        meta: {
+            requiresGuest: true
+        }
+    },
+    {
+        path: '/forget',
+        name: 'forgetPassword',
+        component: ForgetPasswordPage,
         meta: {
             requiresGuest: true
         }

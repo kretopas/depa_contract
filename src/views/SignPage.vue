@@ -133,7 +133,7 @@ export default {
                     helper.loadingAlert();
                     DocumentService.signDocument(this.$route.params.id).then(
                         success => {
-                            helper.successAlert(success, () => {
+                            helper.successAlert(undefined, success, () => {
                                 this.$router.push("/");
                             })
                         },

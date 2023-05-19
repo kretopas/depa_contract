@@ -124,7 +124,7 @@ export default {
                     formData.append("sign_img", this.file);
                     UserService.registerUser(formData).then(
                         success => {
-                            helper.successAlert(success, () => {
+                            helper.successAlert(undefined, success, () => {
                                 this.$router.push("/");
                             })
                         },
