@@ -6,6 +6,7 @@ import LoginPage from '../views/LoginPage.vue';
 import ProfilePage from '../views/ProfilePage.vue';
 import RegisterPage from '../views/RegisterPage.vue';
 import ForgetPasswordPage from '../views/ForgetPasswordPage.vue';
+import SignedDetailPage from '../views/SignedDetailPage.vue';
 
 const routes = [{
         path: '/',
@@ -61,6 +62,14 @@ const routes = [{
         component: ForgetPasswordPage,
         meta: {
             requiresGuest: true
+        }
+    },
+    {
+        path: '/signed/:id',
+        name: 'signedDetailPage',
+        component: SignedDetailPage,
+        meta: {
+            requiresAuth: true
         }
     }
 ]

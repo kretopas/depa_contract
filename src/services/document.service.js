@@ -5,8 +5,16 @@ class DocumentService {
 		return api.get('/doc/waiting');
 	}
 
+	getSignedDocuments() {
+		return api.get('/doc/complete');
+	}
+
 	getDocumentDetail(documentID) {
 		return api.get(`/doc/detail/${documentID}`);
+	}
+
+	getSignedDocumentDetail(documentID) {
+		return api.get(`/doc/complete/detail/${documentID}`);
 	}
 
 	previewDocument(documentID) {

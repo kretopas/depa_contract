@@ -2,9 +2,9 @@
     <h1 class="page-title">{{ page_title }}</h1>
     <div class="container" v-if="currentUser && documents.length > 0">
         <div v-for="document in documents" v-bind:key="document">
-            <div :class="'card text-bg-warning'">
+            <div class="card text-bg-warning">
                 <div class="card-header">
-                    <span>หมายเลขหนังสือ: <b>{{ document.name }}</b></span>
+                    <span>หมายเลขหนังสือ: <strong>{{ document.name }}</strong></span>
                 </div>
                 <div class="card-body">
                     <p class="card-text">เรื่อง: {{ document.subject }}</p>
@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="container" v-else>
-        <p><b>ไม่มีเอกสารที่รอการลงนามในขณะนี้</b></p>
+        <p><strong>ไม่มีเอกสารที่รอการลงนามในขณะนี้</strong></p>
     </div>
 </template>
 
@@ -58,14 +58,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.top-margin {
-    margin-top: 15px;
-}
-
-.card {
-    margin: 10px 15px 0px;
-}
-
-</style>

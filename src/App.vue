@@ -84,4 +84,12 @@ nav {
 .page-title {
   margin-top: 10px;
 }
+
+.top-margin {
+    margin-top: 15px;
+}
+
+.card {
+    margin: 10px 15px 0px;
+}
 </style>

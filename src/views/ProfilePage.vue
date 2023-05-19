@@ -6,7 +6,7 @@
                 <button type="button" class="btn btn-warning btn-block"
                 @click="toggleEditMode()"
                 >
-                    <font-awesome-icon icon="fas fa-pencil" /> แก้ไขข้อมูล
+                    <font-awesome-icon icon="fas fa-pencil" /> แก้ไขข้อมูล/เปลี่ยนรหัสผ่าน
                 </button>
             </div>
             <div v-if="editMode" class="btn-row">
@@ -168,7 +168,6 @@ export default {
                             formData.append("sign_img", this.file);
                             fileCheck = 'withfile';
                         }
-
                         UserService.updateUser(fileCheck, formData).then(
                             success => {
                                 if (this.changePassword) {

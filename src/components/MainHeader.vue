@@ -13,9 +13,9 @@
                     <li class="nav-item">
                         <router-link to="/"><a class="nav-link" aria-current="page">รอดำเนินการ</a></router-link>
                     </li>
-                    <!-- <li class="nav-item">
-                        <router-link to="/complete"><a class="nav-link">Complete</a></router-link>
-                    </li> -->
+                    <li class="nav-item">
+                        <router-link to="/complete"><a class="nav-link">ลงนามแล้ว</a></router-link>
+                    </li>
                     <!-- <li class="nav-item">
                         <router-link to="/signing"><a class="nav-link">Signing</a></router-link>
                     </li> -->
