@@ -1,6 +1,8 @@
 import axiosInstance from './api';
 import TokenService from './token.service';
 
+const exceptions = ['/login', 'register', 'forget'];
+
 const setup = (store) => {
     axiosInstance.interceptors.request.use(
         (config) => {
@@ -20,7 +22,7 @@ const setup = (store) => {
         },
         async(err) => {
             const originalConfig = err.config;
-            if (originalConfig.url !== "/login" && err.response) {
+            if (!exceptions.includes(originalConfig.url) && err.response) {
                 if (err.response.status === 403 && !originalConfig._retry) {
                     originalConfig._retry = true;
                     try {

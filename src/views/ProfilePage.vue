@@ -60,6 +60,20 @@
                             />
                         </div>
                     </div>
+                    <div class="form-group row mb-3" v-if="editMode">
+                        <label for="new_password" class="col-sm-2 col-form-label">รหัสผ่านใหม่</label>
+                        <div class="col-sm-10" id="new_password">
+                            <input type="password" class="form-control"
+                            id="new_password" v-model="new_password"/>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3" v-if="editMode">
+                        <label for="new_password_confirm" class="col-sm-2 col-form-label">ยืนยันรหัสผ่านใหม่</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control"
+                            id="new_password_confirm" v-model="new_password_confirm"/>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -83,7 +97,10 @@ export default {
             email: '',
             editMode: false,
             imageWidth: '300px',
-            file: null
+            file: null,
+            new_password: null,
+            new_password_confirm: null,
+            changePassword: null
         }
     },
     async mounted() {
@@ -111,11 +128,7 @@ export default {
             this[field] = value;
         },
         toggleEditMode() {
-            if (this.editMode == true) {
-                this.editMode = false
-            } else {
-                this.editMode = true
-            }
+            this.editMode = !this.editMode;
         },
         sendEditData() {
             Swal.fire({
@@ -129,38 +142,64 @@ export default {
                 cancelButtonText: "ยกเลิก"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    helper.loadingAlert();
-                    var data = {
-                        user_id: this.user,
-                        name: this.name,
-                        company: this.company,
-                        email: this.email,
-                    }
-                    let formData = new FormData();
-                    const json = JSON.stringify(data);
-                    var fileCheck = 'withoutfile'
-                    formData.append("user_data", json);
-                    
-                    if (this.file) {
-                        formData.append("sign_img", this.file)
-                        fileCheck = 'withfile'
-                    }
-
-                    UserService.updateUser(fileCheck, formData).then(
-                        success => {
-                            helper.successAlert(success, () => {
-                                location.reload();
-                            });
-                        },
-                        error => {
-                            helper.failAlert(error);
+                    var passwordValidated = true;
+                    if (this.new_password) {
+                        if (this.new_password === this.new_password_confirm) {
+                            this.changePassword = true;
+                        } else {
+                            this.changePassword = false;
+                            passwordValidated = false;
                         }
-                    )
+                    }
+                    if (passwordValidated) {
+                        helper.loadingAlert();
+                        var data = {
+                            user_id: this.user,
+                            name: this.name,
+                            company: this.company,
+                            email: this.email,
+                        };
+                        let formData = new FormData();
+                        const json = JSON.stringify(data);
+                        var fileCheck = 'withoutfile';
+                        formData.append("user_data", json);
+                        
+                        if (this.file) {
+                            formData.append("sign_img", this.file);
+                            fileCheck = 'withfile';
+                        }
+
+                        UserService.updateUser(fileCheck, formData).then(
+                            success => {
+                                if (this.changePassword) {
+                                    UserService.changePassword(this.new_password).then(
+                                    success => {
+                                        helper.successAlert(undefined, success, () => {
+                                            location.reload();
+                                        });
+                                    },
+                                    error => {
+                                        helper.failAlert(error);
+                                    }
+                                )
+                                } else {
+                                    helper.successAlert(undefined, success, () => {
+                                        location.reload();
+                                    });
+                                }
+                            },
+                            error => {
+                                helper.failAlert(error);
+                            }
+                        )
+                    } else {
+                        helper.failAlert('รหัสผ่านกับตัวยืนยันรหัสผ่านต้องตรงกัน');
+                    }
                 }
             })
         },
         selectedFile(event) {
-            this.file = event[0]
+            this.file = event[0];
         },
     },
     computed: {
@@ -170,6 +209,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-</style>

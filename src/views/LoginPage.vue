@@ -8,7 +8,9 @@
                         <label for="username">ชื่อผู้ใช้</label>
                         <input type="text" class="form-control" 
                         id="username" v-model="username"
-                        placeholder="Enter Username" />
+                        placeholder="Enter Username"
+                        required
+                        />
                     </div>
                 </div>
                 <div class="form-group row mb-3">
@@ -16,7 +18,9 @@
                         <label for="password">รหัสผ่าน</label>
                         <input type="password" class="form-control"
                         id="password" v-model="password"
-                        placeholder="Enter Password" />
+                        placeholder="Enter Password"
+                        required
+                        />
                     </div>
                 </div>
                 <div class="form-group row mb-3">
@@ -46,8 +50,8 @@ export default {
     data() {
         return {
             page_title: 'เข้าสู่ระบบ',
-            username: '',
-            password: '',
+            username: null,
+            password: null,
             validate: null,
         }
     },
@@ -60,6 +64,7 @@ export default {
             this.$store.dispatch('auth/login', data).then(
                 (response) => {
                     if (response) {
+                        this.validate = true;
                         this.$router.push("/")
                     } else {
                         this.validate = false;
