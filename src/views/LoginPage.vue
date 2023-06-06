@@ -91,7 +91,7 @@ export default {
                                         setInterval(() => {
                                             var timeLeft = (Swal.getTimerLeft() / 1000);
                                             var minutes = Math.floor(timeLeft / 60);
-                                            var seconds = parseInt(timeLeft - minutes * 60);
+                                            var seconds = String(parseInt(timeLeft - minutes * 60)).padStart(2, '0');
                                             b.textContent = `${minutes}:${seconds}`;
                                         }, 100);
                                     },
