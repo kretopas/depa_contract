@@ -44,6 +44,8 @@
 
 <script>
 import Swal from 'sweetalert2';
+import AuthService from '@/services/auth.service';
+import helper from '@/helpers/helper';
 
 export default {
     name: 'loginPage',
@@ -57,6 +59,7 @@ export default {
     },
     methods: {
         async handleSubmit() {
+            helper.loadingAlert();
             const data = {
                 username: this.username,
                 password: this.password
@@ -64,8 +67,55 @@ export default {
             this.$store.dispatch('auth/login', data).then(
                 (response) => {
                     if (response) {
-                        this.validate = true;
-                        this.$router.push("/")
+                        AuthService.getOTP(this.username).then(
+                            async (response) => {
+                                await Swal.fire({
+                                    title: 'OTP',
+                                    html: `เวลาที่เหลือ <b></b> นาที<br/>ส่งรหัส OTP ไปยัง ${response.email} แล้ว<br/>ref: ${response.ref}`,
+                                    input: 'text',
+                                    inputPlaceholder: 'รหัส OTP 6 หลัก',
+                                    inputAttributes: {
+                                        autocomplete: 'off'
+                                    },
+                                    showCancelButton: true,
+                                    confirmButtonText: "ส่ง",
+                                    confirmButtonColor: "#039018",
+                                    cancelButtonText: "ยกเลิก",
+                                    cancelButtonColor: "#d33",
+                                    allowOutsideClick: false,
+                                    showLoaderOnConfirm: true,
+                                    timer: (1000 * 60 * 5),
+                                    timerProgressBar: true,
+                                    didOpen: () => {
+                                        const b = Swal.getHtmlContainer().querySelector('b')
+                                        setInterval(() => {
+                                            var timeLeft = (Swal.getTimerLeft() / 1000);
+                                            var minutes = Math.floor(timeLeft / 60);
+                                            var seconds = parseInt(timeLeft - minutes * 60);
+                                            b.textContent = `${minutes}:${seconds}`;
+                                        }, 100);
+                                    },
+                                    inputValidator: (value) => {
+                                        if (!value) {
+                                            return "กรุณากรอกรหัส OTP ที่ได้รับ"
+                                        } else if (value.length != 6 || isNaN(value)) {
+                                            return "รหัส OTP ประกอบด้วยตัวเลข 6 หลัก"
+                                        }
+                                    },
+                                    preConfirm: (otp) => {
+                                        return AuthService.verifyOTP(otp, this.username, this.password).then(
+                                            () => {
+                                                this.validate = true;
+                                                this.$router.push("/")
+                                            },
+                                            () => {
+                                                Swal.showValidationMessage("รหัส OTP ไม่ถูกต้อง")
+                                            }
+                                        )
+                                    }
+                                });
+                            }
+                        )
                     } else {
                         this.validate = false;
                     }
