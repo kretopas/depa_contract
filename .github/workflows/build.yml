@@ -1,4 +1,4 @@
-name: Deploy
+name: SSH into Server
 
 on:
   push:
@@ -8,13 +8,20 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-  
+
     steps:
-      - name: executing remote ssh commands
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: SSH into Server
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{secrets.HOST}}
-          username: ${{secrets.USERNAME}}
-          key: ${{secrets.SSH_PRIVATE_KEY}}
-          port: ${{secrets.PORT}}
-          script: whoami
+          host: ${{ secrets.SSH_HOST }}
+          port: 52222
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Execute your SSH commands here
+            echo "Hello, SSH!"
+            # You can execute multiple commands or scripts
+            ls -al
