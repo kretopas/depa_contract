@@ -1,43 +1,55 @@
 <template>
-    <h1 class="page-title">{{ page_title }}</h1>
-    <div class="container">
-        <div class="form-box">
-            <form @submit.prevent="handleSubmit">
-                <div class="form-group row mb-3">
-                    <div class="mx-auto col-sm-4 form-label">
-                        <label for="username">ชื่อผู้ใช้</label>
-                        <input type="text" class="form-control" 
-                        id="username" v-model="username"
-                        placeholder="Enter Username"
-                        required
-                        />
+    <div class="login-page">
+        <transition name="fade">
+            <div class="wallpaper-login"></div>
+        </transition>
+        <div class="container wrapper">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
+                    <div class="card login" v-bind:class="{error: validate == false}">
+                        <form @submit.prevent="handleSubmit">
+                            <div class="form-group row mb-3">
+                                <div class="mx-auto form-label">
+                                    <label for="username">ชื่อผู้ใช้</label>
+                                    <input type="text" class="form-control" id="username" v-model="username"
+                                        placeholder="Enter Username" required />
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <div class="mx-auto form-label">
+                                    <label for="password">รหัสผ่าน</label>
+                                    <input type="password" class="form-control" id="password" v-model="password"
+                                        placeholder="Enter Password" required />
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <div class="mx-auto form-label">
+                                    <p class="false-text" v-if="validate == false">ชื่อผู้ใช้/รหัสผ่านไม่ถูกต้อง</p>
+                                    <button class="btn btn-primary btn-block">เข้าสู่ระบบ</button>
+                                    <!--<button type="button" class="btn btn-primary btn-block"
+                                        @click="goRegister">ลงทะเบียน</button>-->
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <div class="mx-auto form-label">
+                                    <p>
+                                        ไม่มีบัญชีผู้ใช้งาน
+                                        <router-link to="/register">
+                                            ลงทะเบียน
+                                        </router-link>
+                                    </p>
+                                    <p>
+                                        ลืมรหัสผ่าน
+                                        <router-link to="/forget">
+                                            ลืมรหัสผ่าน
+                                        </router-link>
+                                    </p>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div class="form-group row mb-3">
-                    <div class="mx-auto col-sm-4 form-label">
-                        <label for="password">รหัสผ่าน</label>
-                        <input type="password" class="form-control"
-                        id="password" v-model="password"
-                        placeholder="Enter Password"
-                        required
-                        />
-                    </div>
-                </div>
-                <div class="form-group row mb-3">
-                    <div class="mx-auto col-sm-4 form-label">
-                        <p class="false-text" v-if="validate == false">ชื่อผู้ใช้/รหัสผ่านไม่ถูกต้อง</p>
-                        <button class="btn btn-primary btn-block">เข้าสู่ระบบ</button>
-                        <button type="button" class="btn btn-primary btn-block" @click="goRegister">ลงทะเบียน</button>
-                    </div>
-                </div>
-                <div class="form-group row mb-3">
-                    <div class="mx-auto col-sm-4 form-label">
-                        <router-link to="/forget">
-                            ลืมรหัสผ่าน
-                        </router-link>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </template>
@@ -60,6 +72,7 @@ export default {
     methods: {
         async handleSubmit() {
             helper.loadingAlert();
+            this.validate = null;
             const data = {
                 username: this.username,
                 password: this.password
@@ -123,6 +136,7 @@ export default {
                         )
                     } else {
                         this.validate = false;
+                        helper.closeAlert();
                     }
                 },
                 () => {
@@ -142,6 +156,73 @@ export default {
 }
 </script>
 
-<stype scoped>
+<style scoped>
+p {
+    line-height: 1rem;
+}
 
-</stype>
+.card {
+    padding: 20px;
+}
+
+.form-group {
+    input {
+        margin-bottom: 20px;
+    }
+}
+
+.login-page {
+    align-items: center;
+    display: flex;
+    height: 100vh;
+
+    .wallpaper-login {
+        background: url(https://images.pexels.com/photos/32237/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260) no-repeat center center;
+        background-size: cover;
+        height: 100%;
+        position: absolute;
+        width: 100%;
+    }
+
+    .fade-enter-active,
+    .fade-leave-active {
+        transition: opacity .5s;
+    }
+
+    .fade-enter,
+    .fade-leave-to {
+        opacity: 0;
+    }
+
+    h1 {
+        margin-bottom: 1.5rem;
+    }
+}
+
+.error {
+    animation-name: errorShake;
+    animation-duration: 0.3s;
+}
+
+@keyframes errorShake {
+    0% {
+        transform: translateX(-25px);
+    }
+
+    25% {
+        transform: translateX(25px);
+    }
+
+    50% {
+        transform: translateX(-25px);
+    }
+
+    75% {
+        transform: translateX(25px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+</style>

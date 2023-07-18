@@ -13,6 +13,10 @@ class MainHelper {
 		Swal.showLoading();
 	}
 
+	closeAlert() {
+		Swal.close();
+	}
+
 	successAlert(title='สำเร็จ', message, callback=this.defaultCallback) {
 		Swal.fire({
 			title: title,
