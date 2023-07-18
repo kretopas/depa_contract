@@ -37,7 +37,7 @@
                                     <button class="btn btn-primary btn-block">เข้าสู่ระบบ</button>
                                 </div>
                             </div>
-                            <div class="form-group row mb-3">
+                            <div>
                                 <div class="mx-auto form-label">
                                     <p>
                                         ไม่มีบัญชีผู้ใช้งาน
