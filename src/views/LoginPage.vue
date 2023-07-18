@@ -1,12 +1,21 @@
 <template>
-    <div class="login-page">
-        <transition name="fade">
-            <div class="wallpaper-login"></div>
-        </transition>
-        <div class="container wrapper">
+    <div class="wrapper">
+        <div class="container">
+            <div class="box">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
-                    <div class="card login" v-bind:class="{error: validate == false}">
+                    <div class="card" v-bind:class="{ error: validate == false }">
                         <form @submit.prevent="handleSubmit">
                             <div class="form-group row mb-3">
                                 <div class="mx-auto form-label">
@@ -23,11 +32,9 @@
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
-                                <div class="mx-auto form-label">
+                                <div class="mx-auto">
                                     <p class="false-text" v-if="validate == false">ชื่อผู้ใช้/รหัสผ่านไม่ถูกต้อง</p>
                                     <button class="btn btn-primary btn-block">เข้าสู่ระบบ</button>
-                                    <!--<button type="button" class="btn btn-primary btn-block"
-                                        @click="goRegister">ลงทะเบียน</button>-->
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
@@ -63,7 +70,6 @@ export default {
     name: 'loginPage',
     data() {
         return {
-            page_title: 'เข้าสู่ระบบ',
             username: null,
             password: null,
             validate: null,
@@ -148,81 +154,10 @@ export default {
                     })
                 }
             )
-        },
-        goRegister() {
-            this.$router.push("/register")
         }
     }
 }
 </script>
-
 <style scoped>
-p {
-    line-height: 1rem;
-}
-
-.card {
-    padding: 20px;
-}
-
-.form-group {
-    input {
-        margin-bottom: 20px;
-    }
-}
-
-.login-page {
-    align-items: center;
-    display: flex;
-    height: 100vh;
-
-    .wallpaper-login {
-        background: url(https://images.pexels.com/photos/32237/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260) no-repeat center center;
-        background-size: cover;
-        height: 100%;
-        position: absolute;
-        width: 100%;
-    }
-
-    .fade-enter-active,
-    .fade-leave-active {
-        transition: opacity .5s;
-    }
-
-    .fade-enter,
-    .fade-leave-to {
-        opacity: 0;
-    }
-
-    h1 {
-        margin-bottom: 1.5rem;
-    }
-}
-
-.error {
-    animation-name: errorShake;
-    animation-duration: 0.3s;
-}
-
-@keyframes errorShake {
-    0% {
-        transform: translateX(-25px);
-    }
-
-    25% {
-        transform: translateX(25px);
-    }
-
-    50% {
-        transform: translateX(-25px);
-    }
-
-    75% {
-        transform: translateX(25px);
-    }
-
-    100% {
-        transform: translateX(0);
-    }
-}
+@import url('@/assets/css/forms.css');
 </style>

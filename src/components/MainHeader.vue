@@ -48,16 +48,16 @@
                         </router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/register">
-                            <a class="nav-link" :class="$route.path == '/register' ? 'active' : ''">
-                                ลงทะเบียน
+                        <router-link to="/forget">
+                            <a class="nav-link" :class="$route.path == '/forget' ? 'active' : ''">
+                                ลืมรหัสผ่าน
                             </a>
                         </router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/forget">
-                            <a class="nav-link" :class="$route.path == '/forget' ? 'active' : ''">
-                                ลืมรหัสผ่าน
+                        <router-link to="/register">
+                            <a class="nav-link" :class="$route.path == '/register' ? 'active' : ''">
+                                ลงทะเบียน
                             </a>
                         </router-link>
                     </li>
