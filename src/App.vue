@@ -42,54 +42,8 @@ export default {
   color: #2c3e50;
 }
 
-nav {
-  padding: 30px;
-}
+@import url('@/assets/css/forms.css');
+@import url('@/assets/css/profile.css');
+@import url('@/assets/css/app.css');
 
-.button-clear {
-  margin-bottom: 5px;
-}
-
-.false-text {
-  color: red;
-}
-
-.btn-right {
-  float: right;
-  margin: 10px
-}
-
-.form-group {
-  margin-left: 10px;
-  margin-bottom: 10px;
-}
-
-.btn-row {
-  display: flex;
-  padding-top: 10px;
-}
-
-.btn-block {
-  margin-right: 10px;
-}
-
-.form-box {
-  margin-top: 20px;
-}
-
-.form-label {
-  text-align: left;
-}
-
-.page-title {
-  margin-top: 10px;
-}
-
-.top-margin {
-    margin-top: 15px;
-}
-
-.card {
-    margin: 10px 15px 0px;
-}
 </style>

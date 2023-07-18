@@ -1,82 +1,94 @@
 <template>
-    <h1 class="page-title">{{ page_title }}</h1>
-    <div class="container" v-if="currentUser">
-        <div v-if="userDetail">
-            <div v-if="!editMode" class="btn-row">
-                <button type="button" class="btn btn-warning btn-block"
-                @click="toggleEditMode()"
-                >
-                    <font-awesome-icon icon="fas fa-pencil" /> แก้ไขข้อมูล/เปลี่ยนรหัสผ่าน
-                </button>
-            </div>
-            <div v-if="editMode" class="btn-row">
-                <button type="button" class="btn btn-secondary btn-block"
-                @click="toggleEditMode()"
-                >
-                    ยกเลิก
-                </button>
-                <button type="button" class="btn btn-success btn-block"
-                @click="sendEditData()"
-                >
-                    <font-awesome-icon icon="fas fa-floppy-disk" /> บันทึก
-                </button>
-            </div>
-            <div>
-                <form class="form-box">
-                    <div class="form-group row mb-3">
-                        <label for="name" class="col-sm-2 col-form-label">ชื่อ-นามสกุล</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control"
-                            id="name" v-model="name"
-                            required :readonly="!editMode" :disabled="!editMode"/>
-                        </div>
-                    </div>
-                    <div class="form-group row mb-3">
-                        <label for="company" class="col-sm-2 col-form-label">บริษัท</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control"
-                            id="company" v-model="company"
-                            required :readonly="!editMode" :disabled="!editMode"/>
-                        </div>
-                    </div>
-                    <div class="form-group row mb-3">
-                        <label for="email" class="col-sm-2 col-form-label">อีเมล</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control"
-                            id="email" v-model="email"
-                            required :readonly="!editMode" :disabled="!editMode"/>
-                        </div>
-                    </div>
-                    <div class="form-group row mb-3">
-                        <label for="sign_img" class="col-sm-2 col-form-label">ภาพลายเซ็น</label>
-                        <div class="col-sm-10" id="sign_img">
-                            <div v-if="editMode">
-                                <input type="file" class="form-control"
-                                id="image" name="image"
-                                @change="$event => selectedFile($event.target.files)"/>
+    <div class="profile-bg">
+        <div class="container" v-if="currentUser">
+            <div class="row">
+            <div v-if="userDetail" class="col-lg-9 col-md-11 col-sm-13 mx-auto">
+                <div class="card">
+                <div v-if="!editMode" class="btn-row">
+                    <button type="button" class="btn btn-warning btn-block"
+                    @click="toggleEditMode()"
+                    >
+                        <font-awesome-icon icon="fas fa-pencil" /> แก้ไขข้อมูล
+                    </button>
+                </div>
+                <div v-if="editMode" class="btn-inline">
+                    <button type="button" class="btn btn-success" style="float: left;"
+                    @click="sendEditData()"
+                    >
+                        <font-awesome-icon icon="fas fa-floppy-disk" /> บันทึก
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" style="float: right;"
+                    @click="toggleEditMode()"
+                    >
+                        ยกเลิก
+                    </button>
+                </div>
+                <!--<div v-if="editMode">
+                    <button type="button" class="btn btn-secondary btn-block"
+                    @click="toggleEditMode()"
+                    >
+                        ยกเลิก
+                    </button>
+                </div>-->
+                <div>
+                    <form class="form-box">
+                        <div class="form-group row mb-3">
+                            <label for="name" class="col-sm-2 col-form-label label">ชื่อ-นามสกุล</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                id="name" v-model="name"
+                                required :readonly="!editMode" :disabled="!editMode"/>
                             </div>
-                            <img v-bind:src="'data:image/png;base64,'+userDetail.sign_img"
-                            style="width: 200px; height: 100px;"
-                            />
                         </div>
-                    </div>
-                    <div class="form-group row mb-3" v-if="editMode">
-                        <label for="new_password" class="col-sm-2 col-form-label">รหัสผ่านใหม่</label>
-                        <div class="col-sm-10" id="new_password">
-                            <input type="password" class="form-control"
-                            id="new_password" v-model="new_password"/>
+                        <div class="form-group row mb-3">
+                            <label for="company" class="col-sm-2 col-form-label label">บริษัท</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                id="company" v-model="company"
+                                required :readonly="!editMode" :disabled="!editMode"/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row mb-3" v-if="editMode">
-                        <label for="new_password_confirm" class="col-sm-2 col-form-label">ยืนยันรหัสผ่านใหม่</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control"
-                            id="new_password_confirm" v-model="new_password_confirm"/>
+                        <div class="form-group row mb-3">
+                            <label for="email" class="col-sm-2 col-form-label label">อีเมล</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                id="email" v-model="email"
+                                required :readonly="!editMode" :disabled="!editMode"/>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                        <div class="form-group row mb-3">
+                            <label for="sign_img" class="col-sm-2 col-form-label label">ภาพลายเซ็น</label>
+                            <div class="col-sm-10" id="sign_img">
+                                <div v-if="editMode">
+                                    <input type="file" class="form-control"
+                                    id="image" name="image"
+                                    @change="$event => selectedFile($event.target.files)"/>
+                                </div>
+                                <img v-bind:src="'data:image/png;base64,'+userDetail.sign_img"
+                                style="width: 200px; height: 100px;"
+                                />
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3" v-if="editMode">
+                            <label for="new_password" class="col-sm-2 col-form-label label">รหัสผ่านใหม่</label>
+                            <div class="col-sm-10" id="new_password">
+                                <input type="password" class="form-control"
+                                id="new_password" v-model="new_password"/>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3" v-if="editMode">
+                            <label for="new_password_confirm" class="col-sm-2 col-form-label label">ยืนยันรหัสผ่านใหม่</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control"
+                                id="new_password_confirm" v-model="new_password_confirm"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
             </div>
         </div>
+    </div>
     </div>
 </template>
 
@@ -90,7 +102,6 @@ export default {
     name: 'ProfilePage',
     data() {
         return {
-            page_title: 'ข้อมูลผู้ใช้งาน',
             userDetail: '',
             name: '',
             company: '',
@@ -208,3 +219,9 @@ export default {
     }
 }
 </script>
+<style scoped>
+.card {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+}
+</style>

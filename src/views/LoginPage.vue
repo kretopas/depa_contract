@@ -158,6 +158,3 @@ export default {
     }
 }
 </script>
-<style scoped>
-@import url('@/assets/css/forms.css');
-</style>
