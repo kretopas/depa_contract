@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-depa">
         <div class="container-fluid">
             <router-link to="/">
                 <a class="navbar-brand">depa Contract</a>
@@ -11,31 +11,55 @@
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0" v-if="currentUser">
                     <li class="nav-item">
-                        <router-link to="/"><a class="nav-link" aria-current="page">รอดำเนินการ</a></router-link>
+                        <router-link to="/">
+                            <a class="nav-link" aria-current="page" :class="$route.path == '/' ? 'active' : ''">
+                                รอดำเนินการ
+                            </a>
+                        </router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/complete"><a class="nav-link">ลงนามแล้ว</a></router-link>
-                    </li>
-                    <!-- <li class="nav-item">
-                        <router-link to="/signing"><a class="nav-link">Signing</a></router-link>
-                    </li> -->
-                    <li class="nav-item">
-                        <router-link to="/profile"><a class="nav-link">ข้อมูลของฉัน</a></router-link>
+                        <router-link to="/complete">
+                            <a class="nav-link" :class="$route.path == '/complete' ? 'active' : ''">
+                                ลงนามแล้ว
+                            </a>
+                        </router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="#"><a href="javascript:void(0)" @click="logoutClick"
-                                class="nav-link">ออกจากระบบ</a></router-link>
+                        <router-link to="/profile">
+                            <a class="nav-link" :class="$route.path == '/profile' ? 'active' : ''">
+                                ข้อมูลของฉัน
+                            </a>
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="#">
+                            <a href="javascript:void(0)" @click="logoutClick" class="nav-link">
+                                ออกจากระบบ
+                            </a>
+                        </router-link>
                     </li>
                 </ul>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0" v-else>
                     <li class="nav-item">
-                        <router-link to="/login"><a class="nav-link">เข้าสู่ระบบ</a></router-link>
+                        <router-link to="/login">
+                            <a class="nav-link" :class="$route.path == '/login' ? 'active' : ''">
+                                เข้าสู่ระบบ
+                            </a>
+                        </router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/register"><a class="nav-link">ลงทะเบียน</a></router-link>
+                        <router-link to="/register">
+                            <a class="nav-link" :class="$route.path == '/register' ? 'active' : ''">
+                                ลงทะเบียน
+                            </a>
+                        </router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/forget"><a class="nav-link">ลืมรหัสผ่าน</a></router-link>
+                        <router-link to="/forget">
+                            <a class="nav-link" :class="$route.path == '/forget' ? 'active' : ''">
+                                ลืมรหัสผ่าน
+                            </a>
+                        </router-link>
                     </li>
                 </ul>
             </div>
@@ -63,11 +87,6 @@ export default {
                 cancelButtonText: "ยกเลิก"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    //localStorage.removeItem("userid");
-                    //this.$store.dispatch('isLoggedIn', false);
-                    //this.$store.dispatch('user', null);
-                    //this.$store.dispatch('userGroup', null);
-                    //this.$router.push('login')
                     this.$store.dispatch('auth/logout');
                     this.$router.push('/login');
                 }
@@ -75,10 +94,34 @@ export default {
         }
     },
     computed: {
-        //...mapGetters(['user'])
         currentUser() {
-            return this.$store.state.auth.user;
+            return this.$store.state.auth.status.otp;
         }
     }
 }
 </script>
+
+<style scoped>
+.bg-depa {
+    background-color: #0c2f53;
+}
+
+a.nav-link:hover {
+    color: #ffc600;
+}
+
+.active {
+    border: solid yellow 1px;
+    border-radius: 13px;
+    box-shadow: 1px 2px #ffc600;
+}
+
+a {
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+#navbarToggler .active {
+    color: #ffc600
+}
+</style>

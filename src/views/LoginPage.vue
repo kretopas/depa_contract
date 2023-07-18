@@ -103,7 +103,12 @@ export default {
                                         }
                                     },
                                     preConfirm: (otp) => {
-                                        return AuthService.verifyOTP(otp, this.username, this.password).then(
+                                        const otpData = {
+                                            otp: otp,
+                                            username: this.username,
+                                            password: this.password
+                                        }
+                                        return this.$store.dispatch('auth/otp', otpData).then(
                                             () => {
                                                 this.validate = true;
                                                 this.$router.push("/")
@@ -136,3 +141,7 @@ export default {
     }
 }
 </script>
+
+<stype scoped>
+
+</stype>

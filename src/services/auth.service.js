@@ -36,15 +36,16 @@ class AuthService {
 		})
 	}
 
-	verifyOTP(otp, username, password) {
+	verifyOTP(otpData) {
 		return api.post(`/otp/verify`, {
-			token: otp,
-			username: username,
-			password: password
+			token: otpData.otp,
+			username: otpData.username,
+			password: otpData.password
 		}).then(response => {
 			if (response.data.access_token) {
 				TokenService.setUser(response.data);
-				return Promise.resolve();
+				//return Promise.resolve();
+				return response.data;
 			} else {
 				return Promise.reject();
 			}

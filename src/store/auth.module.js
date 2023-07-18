@@ -25,6 +25,20 @@ export const auth = {
         },
         refreshToken({ commit }, accessToken) {
             commit('refreshToken', accessToken);
+        },
+        otp({ commit }, otpData) {
+            return AuthService.verifyOTP(otpData).then(
+                () => {
+                    console.log('otp success');
+                    commit('otpSuccess');
+                    return Promise.resolve();
+                },
+                error => {
+                    console.log('otp fail');
+                    commit('loginFailure');
+                    return Promise.reject(error);
+                }
+            )
         }
     },
     mutations: {
@@ -34,14 +48,20 @@ export const auth = {
         },
         loginFailure(state) {
             state.status.loggedIn = false;
+            state.status.otp = false;
             state.user = null;
         },
         logout(state) {
             state.status.loggedIn = false;
+            state.status.otp = false;
             state.user = null;
+        },
+        otpSuccess(state) {
+            state.status.otp = true;
         },
         refreshToken(state, accessToken) {
             state.status.loggedIn = true;
+            state.status.otp = true;
             state.user = {...state.user, accessToken: accessToken };
         }
     }
