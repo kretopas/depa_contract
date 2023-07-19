@@ -122,6 +122,6 @@ a {
 }
 
 #navbarToggler .active {
-    color: #ffc600
+    color: #ffc600;
 }
 </style>

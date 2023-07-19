@@ -45,5 +45,6 @@ export default {
 @import url('@/assets/css/forms.css');
 @import url('@/assets/css/profile.css');
 @import url('@/assets/css/app.css');
+@import url('@/assets/css/pagination.css');
 
 </style>

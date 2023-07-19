@@ -8,8 +8,13 @@ import setupInterceptors from '@/services/setupInterceptors'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
 
+// axios
 import VueAxios from 'vue-axios'
 import axios from 'axios'
+
+// vue-awesome-paginate
+import VueAwesomePaginate from 'vue-awesome-paginate';
+import 'vue-awesome-paginate/dist/style.css';
 
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -25,10 +30,11 @@ library.add(faFloppyDisk)
 
 setupInterceptors(store);
 
-const app = createApp(App)
-app.use(store)
-app.use(router)
-app.use(VueAxios, axios)
-app.component('font-awesome-icon', FontAwesomeIcon)
-app.provide('axios', app.config.globalProperties.axios)
-app.mount("#app")
+const app = createApp(App);
+app.use(store);
+app.use(router);
+app.use(VueAxios, axios);
+app.use(VueAwesomePaginate);
+app.component('font-awesome-icon', FontAwesomeIcon);
+app.provide('axios', app.config.globalProperties.axios);
+app.mount("#app");

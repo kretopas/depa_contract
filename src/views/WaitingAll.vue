@@ -1,6 +1,6 @@
 <template>
     <div class="container" v-if="currentUser && documents.length > 0">
-        <div v-for="document in documents" v-bind:key="document">
+        <div v-for="document in documents.slice(((page-1)*itemPerPage), (page*itemPerPage))" v-bind:key="document">
             <div class="card text-bg-warning">
                 <div class="card-header">
                     <span>หมายเลขหนังสือ: <strong>{{ document.name }}</strong></span>
@@ -15,6 +15,23 @@
                 </div>
             </div>
         </div>
+        <div>
+            <vue-awesome-paginate
+                v-model="page"
+                :total-items="documents.length"
+                :items-per-page="itemPerPage"
+                :max-pages-shown="3"
+                :show-ending-buttons="true"
+                :hide-prev-next-when-ends="true"
+            >
+                <template #first-page-button>
+                    <span>{{ "<<" }}</span>
+                </template>
+                <template #last-page-button>
+                    <span>{{ ">>" }}</span>
+                </template>
+            </vue-awesome-paginate>
+        </div>
     </div>
     <div class="container" v-else>
         <p><strong>ไม่มีเอกสารที่รอการลงนามในขณะนี้</strong></p>
@@ -28,7 +45,9 @@ export default {
     name: 'WaitingDocument',
     data() {
         return {
-            documents: []
+            documents: [],
+            page: 1,
+            itemPerPage: 2
         }
     },
     async mounted() {
@@ -38,10 +57,9 @@ export default {
             },
             error => {
                 this.content =
-                (error.response && error.response.data && error.response.data.message) ||
-                error.message ||
-                error.toString()
-
+                    (error.response && error.response.data && error.response.data.message) ||
+                    error.message ||
+                    error.toString()
                 if (error.response && error.response.status === 403) {
                     EventBus.dispatch("logout");
                 }
