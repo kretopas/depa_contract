@@ -1,5 +1,4 @@
 <template>
-    <h1 class="page-title">{{ page_title }}</h1>
     <div class="container" v-if="currentUser">
         <div v-if="document">
             <div class="btn-row">
@@ -34,17 +33,17 @@
                             <button type="button" class="btn btn-clear btn-block btn-warning"
                             @click="previewDocument"
                             >
-                                ตัวอย่างเอกสาร
+                                <font-awesome-icon icon="fas fa-file"/> ตัวอย่างเอกสาร
                             </button>
                             <button class="btn btn-clear btn-block btn-success">
-                                ลงนาม
+                                <font-awesome-icon icon="fas fa-pen-to-square"/> ลงนาม
                             </button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-        <div align="center" v-else-if="document == false">
+        <div align="center" v-else-if="document == false" style="margin-top: 20px;">
             <p class="false-text">
                 <b>ท่านไม่มีสิทธิ์ในการเข้าถึงหนังสือฉบับนี้<br />หรือ<br />หนังสือฉบับนี้ไม่อยู่ในสถานะสำหรับลงนาม</b></p>
         </div>
@@ -61,7 +60,6 @@ export default {
     name: 'SignPage',
     data() {
         return {
-            page_title: 'ลงนามเอกสาร',
             document: null,
             preview_src: null,
             preview_pdf: false,
@@ -152,3 +150,13 @@ export default {
     }
 }
 </script>
+<style scoped>
+.container {
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 60%
+}
+</style>

@@ -12,14 +12,16 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0" v-if="currentUser">
                     <li class="nav-item">
                         <router-link to="/">
-                            <a class="nav-link" aria-current="page" :class="$route.path == '/' ? 'active' : ''">
+                            <a class="nav-link" aria-current="page" 
+                            :class="($route.path == '/' || getPath($route.path) == 'sign') ? 'active' : ''">
                                 รอดำเนินการ
                             </a>
                         </router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="/complete">
-                            <a class="nav-link" :class="$route.path == '/complete' ? 'active' : ''">
+                            <a class="nav-link"
+                            :class="($route.path == '/complete' || getPath($route.path) == 'signed') ? 'active' : ''">
                                 ลงนามแล้ว
                             </a>
                         </router-link>
@@ -91,6 +93,10 @@ export default {
                     this.$router.push('/login');
                 }
             })
+        },
+        getPath(fullPath) {
+            const actionPath = fullPath.split("/")[1];
+            return actionPath;
         }
     },
     computed: {

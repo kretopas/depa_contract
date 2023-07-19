@@ -1,5 +1,4 @@
 <template>
-	<h1 class="page-title">{{ page_title }}</h1>
 	<div class="container" v-if="currentUser">
 		<div v-if="document">
 			<div class="btn-row">
@@ -33,7 +32,7 @@
 						<div style="padding-top: 10px;">
 							<button type="button" class="btn btn-clear btn-block btn-warning"
 							@click="previewDocument">
-								ตัวอย่างเอกสาร
+								<font-awesome-icon icon="fas fa-file"/> ตัวอย่างเอกสาร
 							</button>
 						</div>
 					</div>
@@ -58,7 +57,6 @@ export default {
 	name: 'SignedDetailPage',
 	data() {
 		return {
-			page_title: 'รายละเอียดเอกสาร',
 			document: null,
 			preview_src: null,
 			preview_pdf: false,
@@ -123,3 +121,13 @@ export default {
 	}
 }
 </script>
+<style scoped>
+.container {
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 60%
+}
+</style>
