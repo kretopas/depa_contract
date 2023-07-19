@@ -20,16 +20,9 @@
                     <button type="button" class="btn btn-outline-secondary" style="float: right;"
                     @click="toggleEditMode()"
                     >
-                        ยกเลิก
+                        X
                     </button>
                 </div>
-                <!--<div v-if="editMode">
-                    <button type="button" class="btn btn-secondary btn-block"
-                    @click="toggleEditMode()"
-                    >
-                        ยกเลิก
-                    </button>
-                </div>-->
                 <div>
                     <form class="form-box">
                         <div class="form-group row mb-3">

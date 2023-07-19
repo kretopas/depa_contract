@@ -14,7 +14,7 @@
                 <div></div>
             </div>
             <div class="row">
-                <div class="col-lg-9 col-md-10 col-sm-12 mx-auto">
+                <div class="col-lg-10 col-md-10 col-sm-12 mx-auto">
                     <div class="card">
 						<button class="btn btn-outline-secondary" @click="goToSignin" style="width: 120px;">
 							<font-awesome-icon icon="fas fa-chevron-left" /> เข้าสู่ระบบ
@@ -22,7 +22,17 @@
                         <form @submit.prevent="sendRegisterData" class="form-box">
                             <div class="form-group row label">
                                 <label for="name" class="col-sm-2 col-form-label">ชื่อ-นามสกุล</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-2">
+                                    <select class="form-select"
+                                    v-model="namePrefix" id="namePrefix"
+                                    required>
+                                        <option :value="''" selected disabled hidden>คำนำหน้า</option>
+                                        <option v-for="(option, index) in namePrefixOptions" :value="option" v-bind:key="index">
+                                            {{ option }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-8">
                                     <input type="text" class="form-control" id="name" v-model="name" required />
                                 </div>
                             </div>
@@ -84,6 +94,7 @@ export default {
     name: 'RegisterPage',
     data() {
         return {
+            namePrefix: '',
             name: '',
             company: '',
             email: '',
@@ -92,6 +103,11 @@ export default {
             password: '',
             confirm_password: '',
             password_matched: null,
+            namePrefixOptions: [
+                'นาย',
+                'นาง',
+                'นางสาว'
+            ]
         }
     },
     methods: {
@@ -151,3 +167,6 @@ export default {
     },
 }
 </script>
+<style scoped>
+@import url('@/assets/css/forms.css');
+</style>

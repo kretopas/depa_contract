@@ -1,5 +1,4 @@
 <template>
-    <h1 class="page-title">{{ page_title }}</h1>
     <div class="container" v-if="currentUser && documents.length > 0">
         <div v-for="document in documents" v-bind:key="document">
             <div class="card text-bg-warning">
@@ -21,7 +20,6 @@
         <p><strong>ไม่มีเอกสารที่รอการลงนามในขณะนี้</strong></p>
     </div>
 </template>
-
 <script>
 import DocumentService from '@/services/document.service';
 import EventBus from '@/common/EventBus';
@@ -30,7 +28,6 @@ export default {
     name: 'WaitingDocument',
     data() {
         return {
-            page_title: "เอกสารรอดำเนินการ",
             documents: []
         }
     },
