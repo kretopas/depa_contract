@@ -46,6 +46,21 @@ class UserService {
 			}
 		})
 	}
+
+	checkDuplicateUser(username) {
+		return api.post(
+			`/user/check`,
+			{
+				username: username
+			}
+		).then(response => {
+			if (response.data != false) {
+				return true
+			} else {
+				return false
+			}
+		})
+	}
 }
 
 export default new UserService()

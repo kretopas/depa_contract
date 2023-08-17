@@ -31,10 +31,10 @@
             </vue-awesome-paginate>
         </div>
     </div>
-    <div class="container" v-else-if="ddocuments != null && documents.length == 0" style="margin-top: 20px;">
+    <div v-else-if="documents === false" style="margin-top: 20px;">
         <p class="false-text"><strong class="">ไม่มีเอกสารที่รอการลงนามในขณะนี้</strong></p>
     </div>
-    <div class="container" v-else style="margin-top: 20px;">
+    <div v-else style="margin-top: 20px;">
         <p><strong>กำลังดึงข้อมูลรายการเอกสารที่รอการลงนาม โปรดรอสักครู่...</strong></p>
     </div>
 </template>

@@ -44,7 +44,6 @@ class AuthService {
 		}).then(response => {
 			if (response.data.access_token) {
 				TokenService.setUser(response.data);
-				//return Promise.resolve();
 				return response.data;
 			} else {
 				return Promise.reject();

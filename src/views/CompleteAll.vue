@@ -31,7 +31,7 @@
             </vue-awesome-paginate>
         </div>
     </div>
-    <div class="container" v-else-if="documents != null && documents.length == 0" style="margin-top: 20px;">
+    <div v-else-if="documents === false" style="margin-top: 20px;">
         <p class="false-text"><strong>ไม่มีเอกสารที่ลงนามแล้ว</strong></p>
     </div>
     <div v-else style="margin-top: 20px;">
