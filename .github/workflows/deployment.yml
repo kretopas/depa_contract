@@ -20,5 +20,6 @@ jobs:
           script: |
             cd /var/www/html/depa_contract
             git pull
+            echo "${{ secrets.ENV_FILES }}" > .env
             npm run build
       
