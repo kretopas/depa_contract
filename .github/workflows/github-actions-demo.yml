@@ -15,7 +15,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ PASSWORD }}
+          password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           scripts: |
             echo "TEST"
