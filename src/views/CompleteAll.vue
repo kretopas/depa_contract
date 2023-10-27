@@ -1,7 +1,7 @@
 <template>
     <div class="container" v-if="currentUser && documents != null && documents.length > 0">
         <div class="grid" style="margin-top: 10px;">
-            <div v-for="document in documents" v-bind:key="document">
+            <div v-for="document in documents.slice(((page-1)*itemPerPage), (page*itemPerPage))" v-bind:key="document">
                 <div class="card" v-on:click="changePage(document.id)">
                     <div class="card-details">
                         <p class="text-title">{{ document.name }}</p>

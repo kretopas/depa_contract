@@ -1,5 +1,6 @@
 import axiosInstance from './api';
 import TokenService from './token.service';
+import router from '@/router';
 
 const exceptions = ['/login', 'register', 'forget'];
 
@@ -34,7 +35,8 @@ const setup = (store) => {
                         TokenService.updateLocalAccesstoken(access_token);
                         return axiosInstance(originalConfig);
                     } catch (_error) {
-                        return Promise.reject(_error);
+                        TokenService.removeUser();
+                        router.push('/login');
                     }
                 }
             }
