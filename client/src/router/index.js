@@ -7,6 +7,9 @@ import ProfilePage from '../views/ProfilePage.vue';
 import RegisterPage from '../views/RegisterPage.vue';
 import ForgetPasswordPage from '../views/ForgetPasswordPage.vue';
 import SignedDetailPage from '../views/SignedDetailPage.vue';
+import PolicyPageVue from '@/views/PolicyPage.vue';
+import TermAndConditionPageVue from '@/views/TermAndConditionPage.vue';
+import PageNotFoundVue from '@/views/PageNotFound.vue';
 
 const routes = [{
         path: '/',
@@ -71,6 +74,21 @@ const routes = [{
         meta: {
             requiresAuth: true
         }
+    },
+    {
+        path: '/privacyPolicy',
+        name: 'policyPage',
+        component: PolicyPageVue,
+    },
+    {
+        path: '/termAndCondition',
+        name: 'termAndConditionPage',
+        component: TermAndConditionPageVue,
+    },
+    {
+        path: "/:pathMatch(.*)*",
+        name: "pageNotFound",
+        component: PageNotFoundVue
     }
 ]
 

@@ -1,0 +1,6 @@
+__pycache__
+.env
+*.key
+*.crt
+*.p12
+*.srl
