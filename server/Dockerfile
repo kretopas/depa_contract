@@ -8,6 +8,8 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 RUN mkdir -p /app/app/odoo/temp
 
+EXPOSE 3000
+
 CMD ["python", "main.py"]
 
 USER root

@@ -114,7 +114,21 @@
                                     <div id="validationMatchedPassword" class="invalid-feedback">รหัสผ่านไม่ตรงกัน</div>
                                 </div>
                             </div>
-                            <button class="btn btn-primary btn-block">สมัครสมาชิก</button>
+                            <div class="form-group row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-10 form-check">
+                                    <input class="form-check-input" type="checkbox" v-model="checkBox" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        ท่านยอมรับข้อตกลงในการใช้งานใบรับรองอิเล็กทรอนิกส์ และยอมรับใบรับรองอิเล็กทรอนิกส์
+                                    </label>
+                                </div>
+                            </div>
+                            <button 
+                            class="btn btn-primary btn-block"
+                            :disabled="!checkBox"
+                            >
+                                สมัครสมาชิก
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -146,7 +160,8 @@ export default {
                 'นาง',
                 'นางสาว'
             ],
-            usernameAvailable: null
+            usernameAvailable: null,
+            checkBox: false
         }
     },
     methods: {
@@ -223,4 +238,7 @@ export default {
 </script>
 <style scoped>
 @import url('@/assets/css/forms.css');
+.wrapper {
+    height: auto;
+}
 </style>

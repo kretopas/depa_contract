@@ -25,5 +25,6 @@ pnpm-debug.log*
 
 .env.production
 .env.development
+docker-test.yml
 
 data
