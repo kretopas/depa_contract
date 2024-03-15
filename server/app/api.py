@@ -6,7 +6,7 @@ from app.auth.auth_handler import create_access_token, create_refresh_token
 from app.auth.auth_bearer import JWTBearer
 from app.odoo.user import check_authenticate, reset_user_password, change_user_password, email_otp, check_duplicate_user
 from app.odoo.signature import get_encoded_signature, sign_contractor_document, sign_document
-from app.odoo.contractor import get_contractor_detail, register_contractor, update_contractor
+from app.odoo.contractor import get_contractor_detail, register_contractor, update_contractor, revoke_contract, renew_contract
 from app.odoo.document import get_contractor_waiting_documents, get_contractor_document_detail, get_contractor_signed_documents, get_preview_document
 from app.odoo.employee import register_employee_certificate
 from app.database import Otp
@@ -282,5 +282,33 @@ def sign_internal_document(request: dict = Body(...)):
     except Exception as e:
         log.error(e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="ไม่สามารถลงนามอิเล็กทรอนิกส์")
-    
+
+@router.get("/user/certificate/revoke")
+def revoke_certificate(token_data: dict = Depends(JWTBearer())):
+    try:
+        user_id = token_data['user_id']
+        revoke = revoke_contract(user_id)
+        if revoke:
+            log.info(f"Employee User Id = [{user_id}] revoke certificate complete!")
+        else:
+            log.info(f"Employee User Id = [{user_id}] revoke certificate failure!")
+        return revoke
+    except Exception as e:
+        log.exception("Cannot Revoke Employee Certificate")
+        return False
+
+@router.get("/user/certificate/renew")
+def renew_certificate(token_data: dict = Depends(JWTBearer())):
+    try:
+        user_id = token_data['user_id']
+        renew = renew_contract(user_id)
+        if renew:
+            log.info(f"Employee User Id = [{user_id}] renew certificate complete!")
+        else:
+            log.info(f"Employee User Id = [{user_id}] renew certificate failure!")
+        return renew
+    except Exception as e:
+        log.exception("Cannot Renew Employee Certificate")
+        return False
+
 app.include_router(router)

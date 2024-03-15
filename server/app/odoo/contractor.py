@@ -103,3 +103,34 @@ def update_contractor(user_id: int, user_data: UserEdit, encoded_image: str = No
             update_data['sign_img'] = encoded_image
         update = odoo.write('depa_contract', contractor_id, update_data)
     return True if update else False
+
+def revoke_contract(user_id: int) -> bool:
+    contractor_id = get_contractor_id(user_id)
+    if contractor_id:
+        update_data = {
+            'active_contract': False,
+            'cad_password': False,
+            'certificate_file': [(6, 0, [])]
+        }
+        update = odoo.write('depa_contract', contractor_id, update_data)
+        return True if update else False
+    return False
+
+def renew_contract(user_id: int) -> bool:
+    contractor = get_contractor_detail(user_id)
+    if contractor:
+        file_name = "certificate.p12"
+        try:
+            p12_base64, p12_password = create_pfx(file_name, contractor.get('name'), contractor.get('email'))
+            if p12_base64 and p12_password:
+                attachment_id = upload_attachment(file_name, p12_base64)
+                update_data = {
+                    'active_contract': True,
+                    'cad_password': p12_password,
+                    'certificate_file': [(6, 0, [attachment_id])]
+                }
+                update = odoo.write('depa_contract', contractor.get('id'), update_data)
+            return True if update else False
+        except:
+            return False
+    return False

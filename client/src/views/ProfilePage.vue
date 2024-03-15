@@ -10,6 +10,18 @@
                     >
                         <font-awesome-icon icon="fas fa-pencil" /> แก้ไขข้อมูล
                     </button>
+                    <button type="button" class="btn btn-danger btn-blocl"
+                    v-if="userDetail.active_contract"
+                    @click="toggleCertificate()"
+                    >
+                        <font-awesome-icon icon="fas fa-triangle-exclamation" /> เพิกถอนใบรับรองอิเล็กทรอนิกส์
+                    </button>
+                    <button type="button" class="btn btn-success btn-blocl"
+                    v-else
+                    @click="toggleCertificate()"
+                    >
+                        <font-awesome-icon icon="fas fa-rotate-right" /> ขอใบรับรองอิเล็กทรอนิกส์ใหม่
+                    </button>
                 </div>
                 <div v-if="editMode" class="btn-inline">
                     <button type="button" class="btn btn-success" style="float: left;"
@@ -25,6 +37,11 @@
                 </div>
                 <div>
                     <form class="form-box">
+                        <div class="form-group row mb-3" v-if="!userDetail.active_contract">
+                            <label class="col-sm-2 col-form-label label" style="color: red;">
+                                *กำลังปิดใช้งาน
+                            </label>
+                        </div>
                         <div class="form-group row mb-3">
                             <label for="name" class="col-sm-2 col-form-label label">ชื่อ-นามสกุล</label>
                             <div class="col-sm-10">
@@ -90,6 +107,7 @@ import Swal from 'sweetalert2';
 import UserService from '@/services/user.service';
 import EventBus from '@/common/EventBus';
 import helper from '@/helpers/helper';
+import userService from '@/services/user.service';
 
 export default {
     name: 'ProfilePage',
@@ -204,6 +222,47 @@ export default {
         selectedFile(event) {
             this.file = event[0];
         },
+        toggleCertificate() {
+            var confirmString = this.userDetail.active_contract ?
+                                "ยืนยันการเพิกถอนใบรับรองอิเล็กทรอนิกส์หรือไม่?" :
+                                "ยืนยันการขอใบรับรองอิเล็กทรอนิกส์ใหม่หรือไม่?"
+            Swal.fire({
+                title: "ยืนยัน?",
+                text: confirmString,
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "ยืนยัน",
+                confirmButtonColor: "#039018",
+                cancelButtonColor: '#d33',
+                cancelButtonText: "ยกเลิก"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (this.userDetail.active_contract) {
+                        userService.revokeCertificate().then(
+                            success => {
+                                helper.successAlert(undefined, success, () => {
+                                    location.reload();
+                                });
+                            },
+                            error => {
+                                helper.failAlert(error);
+                            }
+                        )
+                    } else {
+                        userService.renewCertificate().then(
+                            success => {
+                                helper.successAlert(undefined, success, () => {
+                                    location.reload();
+                                });
+                            },
+                            error => {
+                                helper.failAlert(error);
+                            }
+                        )
+                    }
+                }
+            })
+        }
     },
     computed: {
         currentUser() {

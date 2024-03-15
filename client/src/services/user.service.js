@@ -61,6 +61,30 @@ class UserService {
 			}
 		})
 	}
+
+	revokeCertificate() {
+		return api.get(
+			`/user/certificate/revoke`
+		).then(response => {
+			if (response.data != false) {
+				return Promise.resolve("เพิกถอนใบรับรองอิเล็กทรอนิกส์สำเร็จ")
+			} else {
+				return Promise.reject("ไม่สามารถเพิกถอนใบรับรองอิเล็กทรอนิกส์ได้")
+			}
+		})
+	}
+
+	renewCertificate() {
+		return api.get(
+			`/user/certificate/renew`
+		).then(response => {
+			if (response.data != false) {
+				return Promise.resolve("ขอใบรับรองอิเล็กทรอนิกส์ใหม่สำเร็จ")
+			} else {
+				return Promise.reject("ไม่สามารถขอใบรับรองอิเล็กทรอนิกส์ใหม่ได้")
+			}
+		})
+	}
 }
 
 export default new UserService()

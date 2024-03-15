@@ -21,7 +21,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 /* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 /* import specific icons */
-import { faChevronLeft, faInfoCircle, faPencil, faFloppyDisk, faPenToSquare, faFile } from '@fortawesome/free-solid-svg-icons'
+import { faChevronLeft, faInfoCircle, faPencil, faFloppyDisk, faPenToSquare, faFile, faTriangleExclamation, faRotateRight } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faChevronLeft);
 library.add(faInfoCircle);
@@ -29,6 +29,8 @@ library.add(faPencil);
 library.add(faFloppyDisk);
 library.add(faPenToSquare);
 library.add(faFile);
+library.add(faTriangleExclamation);
+library.add(faRotateRight);
 
 setupInterceptors(store);
 
