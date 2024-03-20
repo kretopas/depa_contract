@@ -6,7 +6,7 @@
 					<div class="card">
 						<strong>แนวนโยบายและแนวปฏิบัติการให้บริการใบรับรองอิเล็กทรอนิกส์</strong>
 						<iframe width="100%" height="650px"
-						:src="pdfFile+'#page=1&zoom=100'">
+						:src="pdfFile+'#page=1&zoom=100&toolbar=0&navpanes=0&scrollbar=0'">
 						</iframe>
 					</div>
 				</div>
