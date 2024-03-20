@@ -5,7 +5,9 @@
 				<div class="col-lg-10 col-md-10 col-sm-12 mx-auto">
 					<div class="card">
 						<strong>แนวนโยบายและแนวปฏิบัติการให้บริการใบรับรองอิเล็กทรอนิกส์</strong>
-						TEST TEST TEST 
+						<div class="text-start">
+							TEST TEST 
+						</div>
 					</div>
 				</div>
 			</div>
