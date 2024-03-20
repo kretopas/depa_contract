@@ -5,15 +5,28 @@
 				<div class="col-lg-10 col-md-10 col-sm-12 mx-auto">
 					<div class="card">
 						<strong>แนวนโยบายและแนวปฏิบัติการให้บริการใบรับรองอิเล็กทรอนิกส์</strong>
-						<div class="text-start">
-							TEST TEST 
-						</div>
+						<iframe width="100%" height="650px"
+						:src="pdfFile+'#page=1&zoom=100'">
+						</iframe>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
+
+<script>
+import pdfFile from '@/assets/pdf/แนวนโยบายและแนวปฏิบัติการให้บริการใบรับรองอิเล็กทรอนิกส์.pdf';
+
+export default {
+	name: 'TermAndCondition',
+	data() {
+		return {
+			pdfFile
+		}
+	}
+}
+</script>
 
 <style scoped>
 .wrapper {
