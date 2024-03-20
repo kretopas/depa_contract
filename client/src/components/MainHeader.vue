@@ -63,6 +63,13 @@
                             </a>
                         </router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link to="/termAndCondition">
+                            <a class="nav-link" :class="$route.path == '/termAndCondition' ? 'active' : ''">
+                                แนวนโยบาย/แนวปฏิบัติ
+                            </a>
+                        </router-link>
+                    </li>
                 </ul>
             </div>
         </div>

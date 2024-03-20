@@ -2,10 +2,19 @@
 	<div class="wrapper">
 		<div class="container">
 			<div class="row">
-				<div class="mx-auto">
-					
+				<div class="col-lg-10 col-md-10 col-sm-12 mx-auto">
+					<div class="card">
+						<strong>แนวนโยบายและแนวปฏิบัติการให้บริการใบรับรองอิเล็กทรอนิกส์</strong>
+						TEST TEST TEST 
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
+
+<style scoped>
+.wrapper {
+	min-height: 100%;
+}
+</style>

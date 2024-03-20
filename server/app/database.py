@@ -9,4 +9,5 @@ print("Connected to MongoDB...")
 
 db = client[config("MONGO_INITDB_DATABASE")]
 Otp = db.otp
+LogDb = db.log
 Otp.create_index([("username", pymongo.ASCENDING)], unique=True)

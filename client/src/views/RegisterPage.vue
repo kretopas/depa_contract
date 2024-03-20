@@ -118,8 +118,11 @@
                                 <div class="col-sm-1"></div>
                                 <div class="col-sm-10 form-check">
                                     <input class="form-check-input" type="checkbox" v-model="checkBox" id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        ท่านยอมรับข้อตกลงในการใช้งานใบรับรองอิเล็กทรอนิกส์ และยอมรับใบรับรองอิเล็กทรอนิกส์
+                                    <label class="form-check-label text-start" for="flexCheckDefault">
+                                        ข้าพเจ้าได้อ่าน ศึกษา เข้าใจ และยอมรับใน 
+                                            <a href="/termAndCondition" target="_blank">
+                                                แนวนโยบายและแนวปฏิบัติการให้บริการใบรับรองอิเล็กทรอนิกส์ (Certificate Policy/Certification Practice Statement)
+                                            </a>
                                     </label>
                                 </div>
                             </div>

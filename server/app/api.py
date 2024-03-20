@@ -1,7 +1,7 @@
 # app/api.py
 
 # ? owned module
-from app.model import UserLoginSchema, UserRegister, UserEdit, OtpBaseSchema, OtpRequestSchema
+from app.model import UserLoginSchema, UserRegister, UserEdit, OtpBaseSchema, OtpRequestSchema, LogSchema
 from app.auth.auth_handler import create_access_token, create_refresh_token
 from app.auth.auth_bearer import JWTBearer
 from app.odoo.user import check_authenticate, reset_user_password, change_user_password, email_otp, check_duplicate_user
@@ -9,7 +9,7 @@ from app.odoo.signature import get_encoded_signature, sign_contractor_document, 
 from app.odoo.contractor import get_contractor_detail, register_contractor, update_contractor, revoke_contract, renew_contract
 from app.odoo.document import get_contractor_waiting_documents, get_contractor_document_detail, get_contractor_signed_documents, get_preview_document
 from app.odoo.employee import register_employee_certificate
-from app.database import Otp
+from app.database import Otp, LogDb
 from app.helpers.logger import log
 
 # ? import from outside
@@ -22,6 +22,7 @@ from fastapi import APIRouter ,FastAPI, Body, Depends, Form, File, UploadFile, R
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 from pymongo.collection import ReturnDocument
+from functools import wraps
 
 app = FastAPI(docs_url=None, redoc_url=None)
 router = APIRouter(prefix="/api")
@@ -32,8 +33,22 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
-# ? user_group 9 => ประเภท Portal User
-# ? user_group 1 => ประเภท Internal User
+def transaction_log(description):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            print(description)
+            if kwargs.get("token_data"):
+                logger = LogSchema(
+                    username=kwargs.get("token_data")['username'],
+                    action=description,
+                    path=kwargs.get("request").url.path
+                )
+                LogDb.insert_one(logger.dict())
+                print("LOG COMPLETE")
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
 
 def get_now() -> datetime:
     #return (datetime.now(timezone('Asia/Bangkok')))
@@ -284,28 +299,22 @@ def sign_internal_document(request: dict = Body(...)):
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="ไม่สามารถลงนามอิเล็กทรอนิกส์")
 
 @router.get("/user/certificate/revoke")
-def revoke_certificate(token_data: dict = Depends(JWTBearer())):
+@transaction_log("เพิกถอนใบรับรองอิเล็กทรอนิกส์")
+def revoke_certificate(request: Request, token_data: dict = Depends(JWTBearer())):
     try:
         user_id = token_data['user_id']
         revoke = revoke_contract(user_id)
-        if revoke:
-            log.info(f"Employee User Id = [{user_id}] revoke certificate complete!")
-        else:
-            log.info(f"Employee User Id = [{user_id}] revoke certificate failure!")
         return revoke
     except Exception as e:
         log.exception("Cannot Revoke Employee Certificate")
         return False
 
 @router.get("/user/certificate/renew")
-def renew_certificate(token_data: dict = Depends(JWTBearer())):
+@transaction_log("ขอใบรับรองอิเล็กทรอนิกส์ใหม่")
+def renew_certificate(request: Request, token_data: dict = Depends(JWTBearer())):
     try:
         user_id = token_data['user_id']
         renew = renew_contract(user_id)
-        if renew:
-            log.info(f"Employee User Id = [{user_id}] renew certificate complete!")
-        else:
-            log.info(f"Employee User Id = [{user_id}] renew certificate failure!")
         return renew
     except Exception as e:
         log.exception("Cannot Renew Employee Certificate")

@@ -36,10 +36,16 @@ class OtpBaseSchema(BaseModel):
     otp_enable: bool = False
     otp_verified: bool = False
     otp_base32: str | None = None
-    created_at: datetime | None = None
-    updated_at: datetime | None = None
+    created_at: datetime | None = datetime.now()
+    updated_at: datetime | None = datetime.now()
 
 class OtpRequestSchema(BaseModel):
     username: str
     password: str | None = None
     token: str | None = None
+    
+class LogSchema(BaseModel):
+    username: str
+    action: str
+    path: str
+    created_at: datetime | None = datetime.now()
